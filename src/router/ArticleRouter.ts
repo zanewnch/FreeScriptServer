@@ -1,7 +1,7 @@
 import express from "express";
 import { Result } from "../utils/Result";
 import { ArticleController } from '../controller/ArticleController';
-
+// ! write API documentation to explain the request and response data type and structure
 export default (router: express.Router) => {
     const articleController = new ArticleController();
 
