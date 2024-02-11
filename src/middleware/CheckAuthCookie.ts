@@ -6,6 +6,9 @@ export class CheckAuthCookie {
     res: express.Response,
     next: express.NextFunction
   ): void | express.Response<any, Record<string, any>> => {
+    // for testing, just directly return next()
+    console.log("checkAuthCookie");
+    return next();
     try {
       // Allow requests to "/login" and "/register" to proceed without requiring authToken
       if (

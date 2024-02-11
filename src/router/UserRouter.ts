@@ -14,7 +14,15 @@ export default (router: express.Router) => {
   const autoFill = new AutoFill();
   const checkAuthCookie = new CheckAuthCookie();
 
+  router.get("/api/user/test",(req,res,next)=>{
+    checkAuthCookie.checkAuthCookie(req,res,next);
+    userController.get(req,res);
+  } );
+
   router.get("/api/user",checkAuthCookie.checkAuthCookie, userController.get);
+
+
+
   router.post("/api/user", userController.create);
   router.put("/api/user", userController.update);
   router.delete("/api/user/:id", userController.delete);

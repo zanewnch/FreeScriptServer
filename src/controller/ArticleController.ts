@@ -1,6 +1,7 @@
 import { ArticleRepo } from "../repository/ArticleRepo";
 import express from "express";
 import { Article, ArticleDocument } from "interface/ArticleInterface";
+import { Result } from '../utils/Result';
 
 export class ArticleController {
   // declaration
@@ -11,7 +12,10 @@ export class ArticleController {
     this.articleRepo = new ArticleRepo();
   }
 
+  
+  // #swagger.tags = ['Article']
   public get = async (req: express.Request, res: express.Response) => {
+    // #swagger.tags = ['Article']
     try {
       // invoke db get method
       const result: ArticleDocument[] = await this.articleRepo.getArticles();
@@ -94,7 +98,8 @@ export class ArticleController {
         comments: null,
       };
       // get req data
-      const reqData: Partial<Article> = req.body;
+      const reqData: Partial<Article> = req.body['data'];
+      
       //merge
       const data: Article = { ...defaultArticle, ...reqData };
 
@@ -102,11 +107,11 @@ export class ArticleController {
       const result: ArticleDocument = await this.articleRepo.create(data);
 
       // response
-      res.status(200).json(result);
+      res.status(200).json(Result.successWithData(result));
     } catch (e) {
       // catch error
       console.log(e);
-      res.status(500).json({ message: e.message });
+      res.status(500).json(Result.error(e.message));
     }
   };
 }

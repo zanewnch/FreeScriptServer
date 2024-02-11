@@ -1,0 +1,688 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Blog API",
+    "description": "API for a simple blog application",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Article",
+      "description": "API for articles in the blog"
+    },
+    {
+      "name": "User",
+      "description": "API for users in the blog"
+    },
+    {
+      "name": "SupermarketSale",
+      "description": "API for supermarket sale"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/article": {
+      "get": {
+        "tags": [
+          "Article"
+        ],
+        "summary": "Get all articles",
+        "description": "Get all articles description",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ArticleGet200"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Article"
+        ],
+        "summary": "Create an article",
+        "description": "Create an article description",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Article interface",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleCreateParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ArticleCreate200"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/api/article/publish": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/test": {
+      "get": {
+        "tags": [
+          "Article"
+        ],
+        "summary": "Get all articles",
+        "description": "Get all articles description",
+        "operationId": "getAllArticle",
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "page number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "page size",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "number",
+                  "example": 1
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "null"
+                },
+                "data": {
+                  "type": "string",
+                  "example": "null"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "test": {
+                  "type": "string",
+                  "example": "test"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/test": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user/{id}": {
+      "delete": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user/register": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user/userStatusList": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user/totalDataAmount": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user/{pageNum}/{pageSize}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/supermarket": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/supermarket/{id}": {
+      "delete": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/supermarket/branchList": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/supermarket/cityList": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/supermarket/customerTypeList": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/supermarket/totalDataAmount": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/supermarket/{pageNum}/{pageSize}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/supermarket/barChart": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/supermarket/lineChart": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "success": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "example": 1
+        },
+        "msg": {
+          "type": "string",
+          "example": "null"
+        },
+        "data": {
+          "type": "string",
+          "example": "null"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "example": 0
+        },
+        "msg": {
+          "type": "string",
+          "example": "error message"
+        },
+        "data": {
+          "type": "string",
+          "example": "null"
+        }
+      }
+    },
+    "ArticleCreateParam": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "New Article"
+        },
+        "content": {
+          "type": "string",
+          "example": "This is a new article."
+        },
+        "author": {
+          "type": "string",
+          "example": "Author Name"
+        },
+        "createdDate": {
+          "type": "string",
+          "example": "2022-01-01T00:00:00.000Z"
+        },
+        "publishedDate": {
+          "type": "string",
+          "example": "2022-01-01T00:00:00.000Z"
+        },
+        "updatedDate": {
+          "type": "string",
+          "example": "2022-01-01T00:00:00.000Z"
+        },
+        "tag": {
+          "type": "string",
+          "example": "Tag"
+        },
+        "like": {
+          "type": "number",
+          "example": 0
+        },
+        "views": {
+          "type": "number",
+          "example": 0
+        },
+        "summary": {
+          "type": "string",
+          "example": "Summary"
+        },
+        "status": {
+          "type": "string",
+          "example": "Status"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "example": "Commenter"
+              },
+              "content": {
+                "type": "string",
+                "example": "This is a comment."
+              },
+              "createdDate": {
+                "type": "string",
+                "example": "2022-01-01T00:00:00.000Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArticleCreate200": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "example": 1
+        },
+        "msg": {
+          "type": "string",
+          "example": "null"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "65c1a9b4fba17f733db61663"
+            },
+            "title": {
+              "type": "string",
+              "example": "New Article"
+            },
+            "content": {
+              "type": "string",
+              "example": "This is a new article."
+            },
+            "author": {
+              "type": "string",
+              "example": "Author Name"
+            },
+            "createdDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "publishedDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "updatedDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "tag": {
+              "type": "string",
+              "example": "Tag"
+            },
+            "like": {
+              "type": "number",
+              "example": 0
+            },
+            "views": {
+              "type": "number",
+              "example": 0
+            },
+            "summary": {
+              "type": "string",
+              "example": "Summary"
+            },
+            "status": {
+              "type": "string",
+              "example": "Status"
+            },
+            "comments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "Commenter"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "This is a comment."
+                  },
+                  "createdDate": {
+                    "type": "string",
+                    "example": "2022-01-01T00:00:00.000Z"
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "65c1a9b4fba17f733db61664"
+                  }
+                }
+              }
+            },
+            "__v": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        }
+      }
+    },
+    "ArticleGet200": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 1
+          },
+          "msg": {
+            "type": "string",
+            "example": "null"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "65c1a9b4fba17f733db61663"
+              },
+              "title": {
+                "type": "string",
+                "example": "New Article"
+              },
+              "content": {
+                "type": "string",
+                "example": "This is a new article."
+              },
+              "author": {
+                "type": "string",
+                "example": "Author Name"
+              },
+              "createdDate": {
+                "type": "string",
+                "example": "2022-01-01T00:00:00.000Z"
+              },
+              "publishedDate": {
+                "type": "string",
+                "example": "2022-01-01T00:00:00.000Z"
+              },
+              "updatedDate": {
+                "type": "string",
+                "example": "2022-01-01T00:00:00.000Z"
+              },
+              "tag": {
+                "type": "string",
+                "example": "Tag"
+              },
+              "like": {
+                "type": "number",
+                "example": 0
+              },
+              "views": {
+                "type": "number",
+                "example": 0
+              },
+              "summary": {
+                "type": "string",
+                "example": "Summary"
+              },
+              "status": {
+                "type": "string",
+                "example": "Status"
+              },
+              "comments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string",
+                      "example": "Commenter"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "This is a comment."
+                    },
+                    "createdDate": {
+                      "type": "string",
+                      "example": "2022-01-01T00:00:00.000Z"
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "65c1a9b4fba17f733db61664"
+                    }
+                  }
+                }
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

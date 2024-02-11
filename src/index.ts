@@ -6,6 +6,9 @@ import cors from "cors";
 
 import router from "./router";
 import mongoose from "mongoose";
+import swaggerUi from 'swagger-ui-express';
+import * as swaggerFile from './swagger/swagger_output.json';
+
 
 // TODO : test
 const app = express();
@@ -16,6 +19,9 @@ app.use(
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
+
+// swagger related cofig
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(compression());
 app.use(cookieParser());
