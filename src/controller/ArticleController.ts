@@ -2,7 +2,7 @@ import { ArticleRepo } from "../repository/ArticleRepo";
 import express from "express";
 import { Article, ArticleDocument } from "interface/ArticleInterface";
 import { Result } from '../utils/Result';
-
+// ! 現在完成frontend 傳article data 到db, 現在要做的是把data 從db 拿出來, 然後frontend 要進行渲染
 export class ArticleController {
   // declaration
   private articleRepo: ArticleRepo;
@@ -53,7 +53,7 @@ export class ArticleController {
       /* 
        这意味着 reqData 可以是一个包含 Article 类型的任何属性的对象，但所有的属性都是可选的。这对于处理 req.body 很有用，因为 req.body 可能只包含 Article 的部分属性。
        */
-      const reqData: Partial<Article> = req.body;
+      const reqData: Partial<Article> = req.body['data'];
 
       console.log(reqData)
 
