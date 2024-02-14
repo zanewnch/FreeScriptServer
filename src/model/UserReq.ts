@@ -1,6 +1,6 @@
-import {Request} from 'express';
-import { User } from './User';
+import { Request } from "express";
+import { User } from "../interface/UserInterface";
 
-export interface UserRes extends Request{
-    body: User;
+export interface UserRes extends Request {
+  body: User;
 }

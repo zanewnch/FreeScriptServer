@@ -1,10 +1,11 @@
 import express from "express";
 import { MySQL } from "../repository/MySQL";
 import { Knex } from "../repository/Knex";
-import { User } from "../model/User";
+import { User } from "../interface/UserInterface";
 import { UserRepo } from "../repository/UserRepo";
 import { Result } from "../utils/Result";
 import jwt from "jsonwebtoken";
+
 
 /*
 spring boot 假設有query string, 是要在controller params 一個一個寫，但是在express 接收的時候，會直接把所有query string encapsulated in an object
@@ -48,36 +49,36 @@ export class UserController {
       /*
       不管幾個query string, 都會直接被包成object
       */
-      console.log("The original url:");
-      console.log(req.originalUrl);
+      const query: object = req.query;
 
-      const users: object = await this.userRepo.get(req.query);
-      console.log(req.query);
-      
+      const users: object = await this.userRepo.get(query);
+      console.log(1);
       res.status(200).json(Result.successWithData(users));
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(400);
+      console.log(2);
+    } catch (e) {
+      console.log(3);
+      console.log(e);
+      res.status(400).json(Result.error(e.message));
     }
   };
   public create = async (req: express.Request, res: express.Response) => {
     try {
-      const users = await this.userRepo.create(req.body);
+      const users: number[] = await this.userRepo.create(req.body.data);
 
-      res.status(200).json(Result.success());
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(400).json(Result.error("error"));
+      res.status(200).json(Result.successWithData(users));
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(400).json(Result.error(e.message));
     }
   };
   public update = async (req: express.Request, res: express.Response) => {
     try {
-      const users = await this.userRepo.update(req.body);
+      const users: number = await this.userRepo.update(req.body.data);
 
-      res.status(200).json(Result.success());
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(400).json(Result.error("error"));
+      res.status(200).json(Result.successWithData(users));
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(400).json(Result.error(e.message));
     }
   };
   public delete = async (req: express.Request, res: express.Response) => {
@@ -85,51 +86,50 @@ export class UserController {
       /*
       path variable 都是string, 並且要一個一個接(不會像query string一樣被包成object)
       */
-      const users = await this.userRepo.delete(parseInt(req.params.id));
+      const users: number = await this.userRepo.delete(parseInt(req.params.id));
 
-      res.status(200).json(Result.success());
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(400).json(Result.error("error"));
+      res.status(200).json(Result.successWithData(users));
+    } catch (e) {
+      console.error(e);
+      return res.sendStatus(400).json(Result.error(e.message));
     }
   };
 
   public register = async (
     req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ): Promise<void> => {
+    res: express.Response
+  ): Promise<number[]> => {
     try {
       // 1. check if the username is already exists, if exists, return error
 
-      const result = await this.userRepo.get({ username: req.body.username });
+      const result = await this.userRepo.get({
+        username: req.body.data.username,
+      });
 
       if (result.length != 0) {
         res.status(500).json(Result.error("The username is already exists"));
       } else {
         // 2. if not exists, insert into db
-        const result = await this.userRepo.create(req.body);
+        const result: number[] = await this.userRepo.create(req.body);
         res.status(200).json(Result.success());
+        return result;
       }
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
       res.status(500).json(Result.error("The username is already exists"));
     }
-
-    return next();
   };
 
   public login = async (
     req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    res: express.Response
   ): Promise<void> => {
     // 1. select db with username and password, if not exists, return error
     try {
       // JavaScript's object destructuring
       const user: object = {
-        username: req.body.username,
-        password: req.body.passwod,
+        username: req.body.data.username,
+        password: req.body.data.passwod,
       };
 
       const secretKey: string = "zane";
@@ -158,13 +158,11 @@ export class UserController {
       */
 
       const temp_data: object = {
-        username: req.body.id,
-        password: req.body.password,
+        username: req.body.data.id,
+        password: req.body.data.password,
       };
       // get method check whether the
       const result: object[] = await this.userRepo.get(temp_data);
-      console.log("The params:");
-      console.log(result);
 
       // if no data, which means there is no exists data in table
       if (result.length == 0) {
@@ -172,25 +170,31 @@ export class UserController {
           .status(500)
           .json(Result.error("The username or password is incorrect"));
       } else {
-        res.status(200).json(Result.success());
+        res.status(200).json(Result.successWithData("login success"));
       }
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
       res
         .status(500)
         .json(Result.error("The username or password is incorrect"));
     }
-
-    return next();
   };
 
   public getUserStatusList = async (
     req: express.Request,
     res: express.Response
   ) => {
-    const result = await this.knex.db("user").distinct("user_status").select();
+    try {
+      const result: string[] = await this.knex
+        .db("user")
+        .distinct("user_status")
+        .select();
 
-    res.status(200).json(Result.successWithData(result));
+      res.status(200).json(Result.successWithData(result));
+    } catch (e) {
+      console.error(e);
+      res.status(500).json(Result.error("Internal server error"));
+    }
   };
 
   public getTotalDataAmount = async (
@@ -199,23 +203,23 @@ export class UserController {
   ) => {
     try {
       // get totalDataAmount
-      const totalquery = this.knex.db("user").count("* as total");
+      const totalquery= this.knex.db("user").count("* as total");
       const getTotal = await totalquery;
       const totalDataAmount: string | number = getTotal[0].total;
 
       res.status(200).json(Result.successWithData(totalDataAmount));
     } catch (e) {
-      console.log(e);
+      console.error(e);
       res.status(400).json(Result.error("no data"));
     }
   };
 
   public getByPage = async (req: express.Request, res: express.Response) => {
     try {
-      //  path variable都會是string, 所以要轉成int
-      const page = parseInt(req.params.pageNum) || 1; // default pageNum to 1
-      const pageSize = parseInt(req.params.pageSize) || 10; // default pageSize to 10
-      const offset = (page - 1) * pageSize;
+      const pageNum = parseInt(req.query.pageNum as string) || 1; // default pageNum to 1
+      const pageSize = parseInt(req.query.pageSize as string) || 10; // default pageSize to 10
+      
+      const offset = (pageNum - 1) * pageSize;
 
       // get MapperReturnValue
       const query = this.knex.db
@@ -226,9 +230,9 @@ export class UserController {
       const getData = await query;
 
       res.status(200).json(Result.successWithData(getData));
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal server error" });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json(Result.error(e.message));
     }
   };
 }

@@ -1,7 +1,7 @@
 import express from "express";
 import { MySQL } from "../repository/MySQL";
 import { Knex } from "../repository/Knex";
-import { User } from "../model/User";
+import { User } from "../interface/UserInterface";
 import { Result } from "../utils/Result";
 import { SupermarketSaleRepo } from "../repository/SupermarketSaleRepo";
 
@@ -18,7 +18,6 @@ export class SupermarketSaleController {
 
   public get = async (req: express.Request, res: express.Response) => {
     try {
-
       console.log(req.originalUrl);
       const supermarketSale = await this.supermarketSaleRepo.get(req.query);
       res.status(200).json(Result.successWithData(supermarketSale));
@@ -60,18 +59,12 @@ export class SupermarketSaleController {
     }
   };
 
-  public getBypage = async(req: express.Request, res: express.Response) => {
+  public getBypage = async (req: express.Request, res: express.Response) => {
     /*
     我想要寫一個類似 spring boot page heloper的功能, 他會有pageNum and pageSize
     根據這兩個參數做出分頁查詢的功能
     */
-   try{
-
-   }catch(error){
-    
-   }
-
-
-  }
-
+    try {
+    } catch (error) {}
+  };
 }

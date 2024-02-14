@@ -2,6 +2,7 @@
 
 import swaggerAutogen from "swagger-autogen";
 import { ArticleDef } from "./ArticleDef";
+import { UserDef } from './UserDef';
 
 /* 
 definition part 等於是註冊成
@@ -41,24 +42,26 @@ const doc = {
       data: "null",
     },
     ArticleCreateParam: {
-      title: "New Article",
-      content: "This is a new article.",
-      author: "Author Name",
-      createdDate: "2022-01-01T00:00:00.000Z",
-      publishedDate: "2022-01-01T00:00:00.000Z",
-      updatedDate: "2022-01-01T00:00:00.000Z",
-      tag: "Tag",
-      like: 0,
-      views: 0,
-      summary: "Summary",
-      status: "Status",
-      comments: [
-        {
-          username: "Commenter",
-          content: "This is a comment.",
-          createdDate: "2022-01-01T00:00:00.000Z",
-        },
-      ],
+      data: {
+        title: "New Article",
+        content: "This is a new article.",
+        author: "Author Name",
+        createdDate: "2022-01-01T00:00:00.000Z",
+        publishedDate: "2022-01-01T00:00:00.000Z",
+        updatedDate: "2022-01-01T00:00:00.000Z",
+        tag: "Tag",
+        like: 0,
+        views: 0,
+        summary: "Summary",
+        status: "Status",
+        comments: [
+          {
+            username: "Commenter",
+            content: "This is a comment.",
+            createdDate: "2022-01-01T00:00:00.000Z",
+          },
+        ],
+      },
     },
     ArticleCreate200: {
       code: 1,
@@ -116,7 +119,13 @@ const doc = {
         },
       },
     ],
+    UserGet200: UserDef.UserGet200,
+    UserCreateParam:{
+      data:UserDef.UserGet200
+    }
   },
+  
+
 };
 
 const outputFile = "./swagger_output.json";

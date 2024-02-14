@@ -1,5 +1,5 @@
 import { Knex } from "./Knex";
-import { User } from "../model/User";
+import { User } from "../interface/UserInterface";
 /**
  * 記得frontend and backend 的filed name 都是用camel case, 只有db的field name是用snake case.
  * 所以在匯入前db前，都要先create a object with snake case, 再匯入db
@@ -28,7 +28,7 @@ export class UserRepo {
     registrationDate?: Date;
     lastLoginDate?: Date;
     userStatus?: string;
-  }):Promise<object[]> => {
+  }): Promise<object[]> => {
     /*
     既使FE只傳了username and password, 一樣可以成功get, 因為other parameter are optional
     */
@@ -63,12 +63,9 @@ export class UserRepo {
 
       const rows = await query; // 执行查询并获取结果
 
-      
-      console.log("The get method successful,and the result:", rows);
-
       return rows; // 返回查询结果
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -83,10 +80,11 @@ export class UserRepo {
         user_status: user.userStatus,
       };
 
-      const result = await this.knex.db("user").insert(temp_data);
-      console.log("User created:", result);
-    } catch (error) {
-      console.error("Error creating user:", error);
+      // ex: result = [1,2,3], 代表插入data的id
+      const result:number[] = await this.knex.db("user").insert(temp_data);
+      return result;
+    } catch (e) {
+      console.error(e.message);
     }
   };
 
@@ -100,22 +98,22 @@ export class UserRepo {
         last_login_date: user.lastLoginDate,
         user_status: user.userStatus,
       };
-      const result = await this.knex
+      const result:number = await this.knex
         .db("user")
         .where("id", temp_data.id)
         .update(temp_data);
-      console.log("User updated:", result);
-    } catch (error) {
-      console.error("Error updating user:", error);
+      return result;
+    } catch (e) {
+      console.error(e.message);
     }
   };
 
   public delete = async (id: number) => {
     try {
-      const query = await this.knex.db("user").where("id", id).del();
-      console.log("User deleted:", query);
-    } catch (error) {
-      console.error("Error deleting user:", error);
+      const query:number = await this.knex.db("user").where("id", id).del();
+      return query;
+    } catch (e) {
+      console.error(e.message);
     }
   };
 }

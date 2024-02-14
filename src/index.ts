@@ -3,15 +3,22 @@ import http from "http";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
-
 import router from "./router";
 import mongoose from "mongoose";
-import swaggerUi from 'swagger-ui-express';
-import * as swaggerFile from './swagger/swagger_output.json';
+import swaggerUi from "swagger-ui-express";
+import * as swaggerFile from "./swagger/swagger_output.json";
+import path from "path";
+import socketio from "socket.io";
 
-
-// TODO : test
 const app = express();
+
+// set static folder
+// __dirname is the current directory of the file, which mean src in this case
+/* 
+the express.js would auto add index.html in folder to the root route;
+which mean the localhost:8080/ would show the index.html 
+ */
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   cors({
@@ -21,7 +28,7 @@ app.use(
 );
 
 // swagger related cofig
-app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(compression());
 app.use(cookieParser());
@@ -42,7 +49,27 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
 mongoose.connection.on("error", (error: Error) => console.log(error));
 
+const port = process.env.PORT || 8080;
+
 const server = http.createServer(app);
-server.listen(8080, () => {
-  console.log("Server running on http://localhost:8080/");
+const io = socketio(server);
+
+io.on("connection", (socket:any) => {
+  console.log("New WS Connection...");
+  // socket.emit("message", "Welcome to the chat");
+
+  // socket.broadcast.emit("message", "A user has joined the chat");
+
+  // socket.on("disconnect", () => {
+  //   io.emit("message", "A user has left the chat");
+  // });
+
+  // socket.on("chatMessage", (msg) => {
+  //   io.emit("message", msg);
+  // });
+});
+
+// not using app.listen()
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

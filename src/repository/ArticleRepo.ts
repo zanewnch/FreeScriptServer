@@ -35,31 +35,38 @@ export class ArticleRepo {
     this.model = mongoose.model<ArticleDocument>("Article", ArticleSchema);
   }
 
-  public getPaginatedArticles = async(pageNum:number,pageSize:number):Promise<void>=>{
-    
-    try{
-      this.model
-      .find({})
-      .skip((pageNum-1)*pageSize)
-      .limit(pageSize)
-      .exec((err,documents)=>{
-        if(err){
-          console.log(err);
-        }else{
-          console.log(documents);
-        }
-      
-      })
-    }catch(e){
+  public deleteDataWithoutContent = () => {
+    try {
+      // this method delete the documents which do not have content field
+      return this.model
+        .deleteMany({ content: {$exists:false} })
+        .exec();
+
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
+
+  public getPaginatedArticles = async (
+    pageNum: number,
+    pageSize: number
+  ): Promise<ArticleDocument[]> => {
+    try {
+      return this.model
+        .find({})
+        .skip((pageNum - 1) * pageSize)
+        .limit(pageSize)
+        .exec();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   public getArticles = async (): Promise<ArticleDocument[]> => {
     try {
       return this.model.find().exec();
     } catch (e) {
-      throw e;
+      console.log(e);
     }
   };
 

@@ -9,29 +9,29 @@ export class CheckAuthCookie {
     // for testing, just directly return next()
     console.log("checkAuthCookie");
     return next();
-    try {
+    // try {
       // Allow requests to "/login" and "/register" to proceed without requiring authToken
-      if (
-        req.originalUrl.includes("/login") ||
-        req.originalUrl.includes("/register")
-      ) {
-        return next();
-      }
+    //   if (
+    //     req.originalUrl.includes("/login") ||
+    //     req.originalUrl.includes("/register")
+    //   ) {
+    //     return next();
+    //   }
 
-      const token = req.cookies["authToken"];
+    //   const token:string = req.cookies["authToken"];
 
-      if (!token) {
-        res.sendStatus(401);
-        return next();
-      }
+    //   if (!token) {
+    //     res.sendStatus(401);
+    //     return next();
+    //   }
 
-      jwt.verify(token, "zane", (err: any, user: any) => {
-        if (err) return res.sendStatus(403);
-        // user example: {zane:"zane"}
-        return next();
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    //   jwt.verify(token, "zane", (err: any, user: any) => {
+    //     if (err) return res.sendStatus(403);
+    //     // user example: {zane:"zane"}
+    //     return next();
+    //   });
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 }

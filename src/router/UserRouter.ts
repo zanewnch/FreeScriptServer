@@ -4,31 +4,233 @@ import { Knex } from "../repository/Knex";
 import { Result } from "../utils/Result";
 import { UserRepo } from "../repository/UserRepo";
 import { AutoFill } from "../middleware/AutoFill";
-import {  CheckAuthCookie } from '../middleware/CheckAuthCookie';
+import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 const router = express.Router();
-
-// 要把method 轉移到controller
-
 export default (router: express.Router) => {
   const userController = new UserController();
   const autoFill = new AutoFill();
   const checkAuthCookie = new CheckAuthCookie();
 
-  router.get("/api/user/test",(req,res,next)=>{
-    checkAuthCookie.checkAuthCookie(req,res,next);
-    userController.get(req,res);
-  } );
+  /*
+   莫名其妙爛bug, middleware 不能直接寫在callback function, 他會出現response header already sent的錯誤
+   但又一定要callback function, 不然沒辦法寫swagger comment
+   所以就出現這種寫法
+  */
+  router.get(
+    "/api/user",
+    checkAuthCookie.checkAuthCookie,
+    (
+      /* 
+      #swagger.tags = ['User']
+      #swagger.summary = 'get user data'
+      #swagger.description = 'if request without any query string, it will return all user data, if request with query string, it will return user data by query string'
+      #swagger.parameters['id'] = {
+        in: 'query',
+        description: 'user id',
+        required: false,
+        type: 'integer'
+      }
+      #swagger.parameters['name'] = {
+        in: 'query',
+        description: 'user name',
+        required: false,
+        type: 'string'
+      }
+      #swagger.registrationDate={
+        in: 'query',
+        description: 'user registration date',
+        required: false,
+        type: 'string'
+      }
+      #swagger.lastLoginDate={
+        in: 'query',
+        description: 'user last login date',
+        required: false,
+        type: 'string'
+      }
+      #swagger.userStatus={
+        in: 'query',
+        description: 'user status',
+        required: false,
+        type: 'string'
+      }
+      #swagger.responses[200] = {
+        description: 'Success',
+        schema: {
+          $ref: "#/definitions/UserGet200"
+        }
+      }
+      #swagger.responses[500] = {
+        description: 'Error',
+        schema: {
+          $ref: "#/definitions/error"
+        }
+      }
 
-  router.get("/api/user",checkAuthCookie.checkAuthCookie, userController.get);
+      */
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      userController.get(req, res);
+    }
+  );
 
+  
+  router.post(
+    "/api/user",
+    checkAuthCookie.checkAuthCookie,
+    (
+      req: express.Request,
+      res: express.Response,
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      #swagger.summary = 'create user'
+      #swagger.description = 'create user'
+      #swagger.parameters['data'] = {
+        in: 'body',
+        description: 'user data',
+        required: true,
+        type: 'object',
+        schema: {
+          $ref: "#/definitions/UserCreateParam"
+        }
+      }
+      #swagger.responses[200] = {
+        description: 'Success',
+        schema: {
+          $ref: "#/definitions/UserGet200"
+        }
+      }
+      #swagger.responses[500] = {
+        description: 'Error',
+        schema: {
+          $ref: "#/definitions/error"
+        }
+      }
+      */
+      userController.get(req, res);
+    }
+  );
+  // !要完成rest of api 的swagger comment
+  router.put(
+    "/api/user",
+    checkAuthCookie.checkAuthCookie,
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      #swagger.summary = 'update user'
+      #swagger.description = 'update user'
+      #swagger.parameters['data'] = {
+        in: 'body',
+        description: 'user data',
+        required: true,
+        type: 'object',
+        schema: {
+          $ref: "#/definitions/UserGetParam"
+        }
+      }
+      #swagger.responses[200] = {
+        description: 'Success',
+        schema: {
+          $ref: "#/definitions/UserGet200"
+        }
+      }
+      */
+      userController.update(req, res);
+    }
+  );
+  router.delete(
+    "/api/user/:id",
+    checkAuthCookie.checkAuthCookie,
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      */
+      userController.delete(req, res);
+    }
+  );
+  router.post(
+    "/api/user/login",
+    checkAuthCookie.checkAuthCookie,
+    autoFill.autoFill,
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      */
 
+      userController.login(req, res);
+    }
+  );
+  router.post(
+    "/api/user/register",
+    checkAuthCookie.checkAuthCookie,
+    autoFill.autoFill,
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      */
 
-  router.post("/api/user", userController.create);
-  router.put("/api/user", userController.update);
-  router.delete("/api/user/:id", userController.delete);
-  router.post("/api/user/login",checkAuthCookie.checkAuthCookie, autoFill.autoFill, userController.login);
-  router.post("/api/user/register", autoFill.autoFill, userController.register);
-  router.get("/api/user/userStatusList", userController.getUserStatusList);
-  router.get("/api/user/totalDataAmount", userController.getTotalDataAmount);
-  router.get("/api/user/:pageNum/:pageSize", userController.getByPage);
+      userController.register(req, res);
+    }
+  );
+  router.get(
+    "/api/user/userStatusList",
+    checkAuthCookie.checkAuthCookie,
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      */
+      userController.getUserStatusList(req, res);
+    }
+  );
+  router.get(
+    "/api/user/totalDataAmount",
+    checkAuthCookie.checkAuthCookie,
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      */
+      userController.getTotalDataAmount(req, res);
+    }
+  );
+  router.get(
+    "/api/user/:pageNum/:pageSize",
+    checkAuthCookie.checkAuthCookie,
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      /* 
+      #swagger.tags = ['User']
+      */
+      userController.getByPage(req, res);
+    }
+  );
 };

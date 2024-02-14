@@ -11,8 +11,41 @@ export default (router: express.Router) => {
     唯一的solution就是在router 寫function, 然後function 裡面再call controller and middleware(記得要傳req,res,next進去)
    */
 
+  router.get('/api/article',(req,res)=>{
+    /* 
+    #swagger.tags = ['Article']
+    #swagger.summary = 'get article by pagination'
+    #swagger.parameters['pageNum'] = {
+      in: 'query',
+      description: 'page number',
+      required: true,
+      type: 'integer'
+    }
+    #swagger.parameters['pageSize'] = {
+      in: 'query',
+      description: 'page size',
+      required: true,
+      type: 'integer'
+    }
+    #swagger.responses[200] = {
+      description: 'Success',
+      schema: {
+        $ref: "#/definitions/ArticleGet200"
+      }
+    }
+    #swagger.responses[500] = {
+      description: 'Error',
+      schema: {
+        $ref: "#/definitions/error"
+      }
+    }
+    
+     */
+    articleController.get(req,res);
+  }) 
+
   // get data
-  router.get("/api/article", (req, res) => {
+  router.get("/api/allArticle", (req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'Get all articles'
@@ -24,8 +57,12 @@ export default (router: express.Router) => {
       }
     }
     */
-    articleController.get(req, res);
+    articleController.getAll(req, res);
   });
+
+  router.delete('/api/article',(req,res)=>{
+      articleController.deleteWithoutContent(req,res);
+  })
 
   // create data
   router.post("/api/article", (req, res) => {

@@ -30,14 +30,44 @@
         "tags": [
           "Article"
         ],
-        "summary": "Get all articles",
-        "description": "Get all articles description",
+        "summary": "get article by pagination",
+        "description": "",
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "page number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "page size",
+            "required": true,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ArticleGet200"
             }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
           }
         }
       },
@@ -69,6 +99,23 @@
             "description": "Error",
             "schema": {
               "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/api/allArticle": {
+      "get": {
+        "tags": [
+          "Article"
+        ],
+        "summary": "Get all articles",
+        "description": "Get all articles description",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ArticleGet200"
             }
           }
         }
@@ -163,45 +210,117 @@
         }
       }
     },
-    "/api/user/test": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/user": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "get user data",
+        "description": "if request without any query string, it will return all user data, if request with query string, it will return user data by query string",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "user id",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "user name",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserGet200"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "create user",
+        "description": "create user",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "user data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreateParam"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserGet200"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "update user",
+        "description": "update user",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "user data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserGetParam"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserGet200"
+            }
           }
         }
       }
     },
     "/api/user/{id}": {
       "delete": {
+        "tags": [
+          "User"
+        ],
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -211,6 +330,9 @@
     },
     "/api/user/login": {
       "post": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -221,6 +343,9 @@
     },
     "/api/user/register": {
       "post": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -231,6 +356,9 @@
     },
     "/api/user/userStatusList": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -241,6 +369,9 @@
     },
     "/api/user/totalDataAmount": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -251,7 +382,24 @@
     },
     "/api/user/{pageNum}/{pageSize}": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -427,66 +575,71 @@
     "ArticleCreateParam": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string",
-          "example": "New Article"
-        },
-        "content": {
-          "type": "string",
-          "example": "This is a new article."
-        },
-        "author": {
-          "type": "string",
-          "example": "Author Name"
-        },
-        "createdDate": {
-          "type": "string",
-          "example": "2022-01-01T00:00:00.000Z"
-        },
-        "publishedDate": {
-          "type": "string",
-          "example": "2022-01-01T00:00:00.000Z"
-        },
-        "updatedDate": {
-          "type": "string",
-          "example": "2022-01-01T00:00:00.000Z"
-        },
-        "tag": {
-          "type": "string",
-          "example": "Tag"
-        },
-        "like": {
-          "type": "number",
-          "example": 0
-        },
-        "views": {
-          "type": "number",
-          "example": 0
-        },
-        "summary": {
-          "type": "string",
-          "example": "Summary"
-        },
-        "status": {
-          "type": "string",
-          "example": "Status"
-        },
-        "comments": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "username": {
-                "type": "string",
-                "example": "Commenter"
-              },
-              "content": {
-                "type": "string",
-                "example": "This is a comment."
-              },
-              "createdDate": {
-                "type": "string",
-                "example": "2022-01-01T00:00:00.000Z"
+        "data": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "example": "New Article"
+            },
+            "content": {
+              "type": "string",
+              "example": "This is a new article."
+            },
+            "author": {
+              "type": "string",
+              "example": "Author Name"
+            },
+            "createdDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "publishedDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "updatedDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "tag": {
+              "type": "string",
+              "example": "Tag"
+            },
+            "like": {
+              "type": "number",
+              "example": 0
+            },
+            "views": {
+              "type": "number",
+              "example": 0
+            },
+            "summary": {
+              "type": "string",
+              "example": "Summary"
+            },
+            "status": {
+              "type": "string",
+              "example": "Status"
+            },
+            "comments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "Commenter"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "This is a comment."
+                  },
+                  "createdDate": {
+                    "type": "string",
+                    "example": "2022-01-01T00:00:00.000Z"
+                  }
+                }
               }
             }
           }
@@ -679,6 +832,69 @@
                 "type": "number",
                 "example": 0
               }
+            }
+          }
+        }
+      }
+    },
+    "UserGet200": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 7
+        },
+        "username": {
+          "type": "string",
+          "example": "eee"
+        },
+        "password": {
+          "type": "string",
+          "example": "zane"
+        },
+        "registration_date": {
+          "type": "string",
+          "example": "2023-12-31T07:30:00.000Z"
+        },
+        "last_login_date": {
+          "type": "string",
+          "example": "2023-12-31T07:30:00.000Z"
+        },
+        "user_status": {
+          "type": "string",
+          "example": "1"
+        }
+      }
+    },
+    "UserCreateParam": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 7
+            },
+            "username": {
+              "type": "string",
+              "example": "eee"
+            },
+            "password": {
+              "type": "string",
+              "example": "zane"
+            },
+            "registration_date": {
+              "type": "string",
+              "example": "2023-12-31T07:30:00.000Z"
+            },
+            "last_login_date": {
+              "type": "string",
+              "example": "2023-12-31T07:30:00.000Z"
+            },
+            "user_status": {
+              "type": "string",
+              "example": "1"
             }
           }
         }
