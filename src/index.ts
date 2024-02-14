@@ -8,13 +8,23 @@ import mongoose from "mongoose";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerFile from "./swagger/swagger_output.json";
 import path from "path";
-import socketio from "socket.io";
+
+import 'dotenv/config'
+
+// use dotenv to load the .env file
+// this code would load the .env file and set the environment variable
+require("dotenv").config({path: __dirname + '/.env'});
+
+
+
 
 const app = express();
 
-// set static folder
-// __dirname is the current directory of the file, which mean src in this case
-/* 
+/*
+set static folder.
+
+__dirname is the current directory of the file, which mean src in this case
+
 the express.js would auto add index.html in folder to the root route;
 which mean the localhost:8080/ would show the index.html 
  */
@@ -43,8 +53,8 @@ app.use("/", router());
 // mongoose.Promise = Promise;
 // mongoose.connect(MONGO_URL);
 // mongoose.connection.on('error', (error: Error) => console.log(error));
-const MONGO_URL: string =
-  "mongodb+srv://zanewnch:zanewnch@sideproject.1lukwic.mongodb.net/?retryWrites=true&w=majority";
+const MONGO_URL: string =process.env.MONGO_URL;
+
 mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
 mongoose.connection.on("error", (error: Error) => console.log(error));
@@ -52,24 +62,12 @@ mongoose.connection.on("error", (error: Error) => console.log(error));
 const port = process.env.PORT || 8080;
 
 const server = http.createServer(app);
-const io = socketio(server);
 
-io.on("connection", (socket:any) => {
-  console.log("New WS Connection...");
-  // socket.emit("message", "Welcome to the chat");
 
-  // socket.broadcast.emit("message", "A user has joined the chat");
 
-  // socket.on("disconnect", () => {
-  //   io.emit("message", "A user has left the chat");
-  // });
-
-  // socket.on("chatMessage", (msg) => {
-  //   io.emit("message", msg);
-  // });
-});
 
 // not using app.listen()
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
+  
 });
