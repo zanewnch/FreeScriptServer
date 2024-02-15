@@ -26,4 +26,4 @@ export interface Article {
   }[];
 }
 
-export interface ArticleDocument extends Article, Document {}
+export interface ArticleDocument extends Article, Document {};

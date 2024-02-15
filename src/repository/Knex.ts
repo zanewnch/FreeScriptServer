@@ -7,11 +7,11 @@ export class Knex {
     this.db = knex({
       client: "mysql2",
       connection: {
-        host: "localhost",
-        port: 3306,
-        user: "root",
-        password: "polaroid628",
-        database: "sideProject",
+        host: process.env.MYSQL_HOST,
+        port: parseInt(process.env.MYSQL_PORT),
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PASSWORD,
+        database: process.env.MYSQL_DATABASE,
       },
     });
   }

@@ -121,6 +121,16 @@
         }
       }
     },
+    "/api/search": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/article/publish": {
       "post": {
         "description": "",

@@ -38,10 +38,7 @@ export class ArticleRepo {
   public deleteDataWithoutContent = () => {
     try {
       // this method delete the documents which do not have content field
-      return this.model
-        .deleteMany({ content: {$exists:false} })
-        .exec();
-
+      return this.model.deleteMany({ content: { $exists: false } }).exec();
     } catch (e) {
       console.log(e);
     }
@@ -57,6 +54,29 @@ export class ArticleRepo {
         .skip((pageNum - 1) * pageSize)
         .limit(pageSize)
         .exec();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  public getArticleByTitle = async (
+    title: string
+  ): Promise<ArticleDocument[]> => {
+    try {
+      // i is the modifier of regular expression for case-insensitive
+      const regex = new RegExp(title, "i");
+      return this.model.find({ title: { $regex: regex } }).exec();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  public getArticleByAuthor = async (
+    author: string
+  ): Promise<ArticleDocument[]> => {
+    try {
+      // using the regular expression to wildcard search
+      const regex = new RegExp(author, "i");
+      return this.model.find({ author: { $regex: regex } }).exec();
     } catch (e) {
       console.log(e);
     }

@@ -9,14 +9,11 @@ import swaggerUi from "swagger-ui-express";
 import * as swaggerFile from "./swagger/swagger_output.json";
 import path from "path";
 
-import 'dotenv/config'
+import "dotenv/config";
 
 // use dotenv to load the .env file
 // this code would load the .env file and set the environment variable
-require("dotenv").config({path: __dirname + '/.env'});
-
-
-
+require("dotenv").config({ path: __dirname + "/.env" });
 
 const app = express();
 
@@ -53,21 +50,20 @@ app.use("/", router());
 // mongoose.Promise = Promise;
 // mongoose.connect(MONGO_URL);
 // mongoose.connection.on('error', (error: Error) => console.log(error));
-const MONGO_URL: string =process.env.MONGO_URL;
+
 
 mongoose.Promise = Promise;
-mongoose.connect(MONGO_URL);
+mongoose.connect(process.env.MONGO_URL);
+mongoose.connection.on("connected", () => {
+  console.log("Connected to mongo");
+});
 mongoose.connection.on("error", (error: Error) => console.log(error));
 
 const port = process.env.PORT || 8080;
 
 const server = http.createServer(app);
 
-
-
-
 // not using app.listen()
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
-  
 });

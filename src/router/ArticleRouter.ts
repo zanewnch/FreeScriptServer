@@ -1,9 +1,11 @@
 import express from "express";
 import { Result } from "../utils/Result";
 import { ArticleController } from "../controller/ArticleController";
+import { CheckAuthCookie } from '../middleware/CheckAuthCookie';
 
 export default (router: express.Router) => {
   const articleController = new ArticleController();
+  const checkAuthCookie = new CheckAuthCookie();
 
   /*
     swagger autogen 有一個bug, 如果沒有在router裡面直接寫function, 而是直接 controller, 不管在router function or controller function add swagger comment 他都會找不到.
@@ -59,6 +61,10 @@ export default (router: express.Router) => {
     */
     articleController.getAll(req, res);
   });
+
+  router.get('/api/search',checkAuthCookie.checkAuthCookie,(req,res)=>{
+    articleController.search(req,res);
+  })
 
   router.delete('/api/article',(req,res)=>{
       articleController.deleteWithoutContent(req,res);

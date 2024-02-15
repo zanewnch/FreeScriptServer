@@ -29,6 +29,24 @@ export class ArticleController {
     }
   };
 
+  public search = async(req:express.Request,res:express.Response)=>{
+    try{
+      
+      let titleResult:ArticleDocument[] = [];
+      let authorResult:ArticleDocument[] = [];
+      
+      if(req.query.keyword){
+        titleResult = await this.articleRepo.getArticleByTitle(req.query['keyword'] as string);
+        authorResult = await this.articleRepo.getArticleByAuthor(req.query['keyword'] as string);
+      }
+
+      return res.status(200).json(Result.successWithData(titleResult.concat(authorResult)));
+  }catch(e){
+    console.error(e);
+    res.status(400).json(Result.error(e.message));
+  }
+}
+
   public getAll = async (req: express.Request, res: express.Response) => {
     try {
       // invoke db get method
