@@ -104,6 +104,45 @@
         }
       }
     },
+    "/api/article/{author}/{title}": {
+      "get": {
+        "tags": [
+          "Article"
+        ],
+        "summary": "Get specified article",
+        "description": "",
+        "parameters": [
+          {
+            "name": "author",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "author name"
+          },
+          {
+            "name": "title",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "article title"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ArticleGet200"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/api/allArticle": {
       "get": {
         "tags": [

@@ -58,25 +58,40 @@ export class ArticleRepo {
       console.log(e);
     }
   };
+
+  public getSpecifiedArticle = async(
+    author:string,title:string
+  ):Promise<ArticleDocument[]>=>{
+    try{
+      const regexAuthor = new RegExp(author, "i");
+      const regexTitle = new RegExp(title, "i");
+      return await this.model.find({ author:{$regex:regexAuthor },title: { $regex: regexTitle } }).exec();
+    }catch(e){
+      console.error(e.message);
+    }
+  }
+
   public getArticleByTitle = async (
     title: string
   ): Promise<ArticleDocument[]> => {
     try {
       // i is the modifier of regular expression for case-insensitive
       const regex = new RegExp(title, "i");
-      return this.model.find({ title: { $regex: regex } }).exec();
+      return await this.model.find({ title: { $regex: regex } }).exec();
     } catch (e) {
       console.log(e);
     }
   };
+
 
   public getArticleByAuthor = async (
     author: string
   ): Promise<ArticleDocument[]> => {
     try {
       // using the regular expression to wildcard search
+      // "i" mean case-insensitive
       const regex = new RegExp(author, "i");
-      return this.model.find({ author: { $regex: regex } }).exec();
+      return await this.model.find({ author: { $regex: regex } }).exec();
     } catch (e) {
       console.log(e);
     }

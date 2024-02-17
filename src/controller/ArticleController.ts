@@ -11,6 +11,16 @@ export class ArticleController {
     this.articleRepo = new ArticleRepo();
   }
 
+  public getSpecifiedArticle = async (req: express.Request, res: express.Response) => {
+    try{
+      
+      res.status(200).json(Result.successWithData(await this.articleRepo.getSpecifiedArticle(req.params.author.replace(/-/g," "),req.params.title.replace(/-/g," "))));
+    }catch(e){
+      console.error(e);
+      res.status(400).json(Result.error(e.message));
+    }
+  };
+
   public get = async (req: express.Request, res: express.Response) => {
     try {
       /* 

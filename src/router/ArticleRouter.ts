@@ -46,6 +46,41 @@ export default (router: express.Router) => {
     articleController.get(req,res);
   }) 
 
+  router.get('/api/article/:author/:title',
+  checkAuthCookie.checkAuthCookie,
+  (req,res)=>{
+    /* 
+    #swagger.tags = ['Article']
+    #swagger.summary = 'Get specified article'
+    #swagger.parameters['author'] = {
+      in: 'path',
+      description: 'author name',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['title'] = {
+      in: 'path',
+      description: 'article title',
+      required: true,
+      type: 'string'
+    }
+    #swagger.responses[200] = {
+      description: 'Success',
+      schema: {
+        $ref: "#/definitions/ArticleGet200"
+      }
+    }
+    #swagger.responses[500] = {
+      description: 'Error',
+      schema: {
+        $ref: "#/definitions/error"
+      }
+    }
+    */
+    articleController.getSpecifiedArticle(req,res);
+  
+  })
+  
   // get data
   router.get("/api/allArticle", (req, res) => {
     /* 
