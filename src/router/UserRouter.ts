@@ -5,6 +5,9 @@ import { Result } from "../utils/Result";
 import { UserRepo } from "../repository/UserRepo";
 import { AutoFill } from "../middleware/AutoFill";
 import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
+// 在test階段, 先不用mvc structure, 先把所有的code寫在router裡面 來加速開發效率
+// !add the permission of user, for example: free member and premium member
+// !or who has the permission to modify the user data
 const router = express.Router();
 export default (router: express.Router) => {
   const userController = new UserController();
