@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 引入 jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(() => {
+        $("#submit-button").click(() => {
+          let username = $("#username-input").val();
+          let password = $("#password-input").val();
+
+          console.log(username, password);
+        });
+      });
+    </script>
+    <title>Document</title>
+    <style>
+      .flex-container {
+        display: flex;
+        justify-content: flex-start;
+        width: 100vw;
+        height: 100vh;
+      }
+      .nav {
+        height: 100%;
+        width: 16.66667%;
+        display: flex;
+        flex-direction: column;
+        background-color: #e0e0e0;
+        justify-content: start;
+        align-items: start;
+        border-right: #4f4f4f 0.5px solid;
+      }
+      .title {
+        white-space: nowrap;
+        margin-left: 1rem;
+        margin-top: 0.25rem;
+        color: #4f4f4f;
+        font-size: 24px;
+      }
+      .list {
+        white-space: nowrap;
+        margin-left: 1rem;
+        margin-top: 0.25rem;
+        color: #4f4f4f;
+      }
+      .nav ul li {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+      }
+      .nav ul a {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+      }
+      #main-content {
+        width: 83.33333%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content {
+        width: 40%;
+        height: 60%;
+        border: #bebebe 0.5px solid;
+        border-radius: 25px;
+        padding: 10px;
+      }
+
+      .content-list {
+        margin-top: 4px;
+      }
+
+      * {
+        /* border: solid 1px black; */
+      }
+    </style>
+  </head>
+  <script>
+    // the manipulation of data just in router, ejs file only for html
+  </script>
+  <body>
+    <div class="flex-container">
+      <nav class="nav">
+        <a href="/" class="title">Free Script</a>
+        <ul class="list">
+          <li>
+            <a href="" class="router">Account Management</a>
+          </li>
+        </ul>
+      </nav>
+      <section id="main-content">
+        <div class="content content-list">
+          <div>
+            <div class="content-list">Profile picture</div>
+            <img src='"' alt="" class="content-list" />
+          </div>
+
+          <div
+            style="
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+            "
+          >
+            <div class="content-list">Username:</div>
+            <div class="content-list" style="margin-left: 4px">
+              <%= username %>
+            </div>
+          </div>
+
+          <input
+            type="text"
+            placeholder="Change username"
+            class="content-list"
+            id="username-input"
+          />
+
+          <div class="content-list">Password:</div>
+
+          <input
+            type="password"
+            placeholder="Change password"
+            class=""
+            id="password-input"
+          />
+          <div>
+            <button id="submit-button">Submit</button>
+          </div>
+        </div>
+      </section>
+
+      
+    </div>
+  </body>
+</html>

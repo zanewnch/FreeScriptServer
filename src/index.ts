@@ -34,6 +34,11 @@ app.use(
   })
 );
 
+// 设置 Express 使用 EJS 模板引擎
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+
 // swagger related cofig
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 

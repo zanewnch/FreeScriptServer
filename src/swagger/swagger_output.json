@@ -25,6 +25,16 @@
     "http"
   ],
   "paths": {
+    "/api/account-management": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/article": {
       "get": {
         "tags": [
