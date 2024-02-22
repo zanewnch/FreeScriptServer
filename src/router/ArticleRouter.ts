@@ -1,7 +1,7 @@
 import express from "express";
 import { Result } from "../utils/Result";
 import { ArticleController } from "../controller/ArticleController";
-import { CheckAuthCookie } from '../middleware/CheckAuthCookie';
+import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 
 export default (router: express.Router) => {
   const articleController = new ArticleController();
@@ -13,13 +13,13 @@ export default (router: express.Router) => {
     唯一的solution就是在router 寫function, 然後function 裡面再call controller and middleware(記得要傳req,res,next進去)
    */
 
-    router.get('/api/account-management',(req,res)=>{
-      res.render('AccountManagement',{
-        username:"zanewnch"
-      })
-    })
+  router.get("/api/account-management", (req, res) => {
+    res.render("AccountManagement", {
+      username: "zanewnch",
+    });
+  });
 
-  router.get('/api/article',(req,res)=>{
+  router.get("/api/article", (req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'get article by pagination'
@@ -49,13 +49,14 @@ export default (router: express.Router) => {
     }
     
      */
-    articleController.get(req,res);
-  }) 
+    articleController.get(req, res);
+  });
 
-  router.get('/api/article/:author/:title',
-  checkAuthCookie.checkAuthCookie,
-  (req,res)=>{
-    /* 
+  router.get(
+    "/api/article/:author/:title",
+    checkAuthCookie.checkAuthCookie,
+    (req, res) => {
+      /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'Get specified article'
     #swagger.parameters['author'] = {
@@ -83,10 +84,10 @@ export default (router: express.Router) => {
       }
     }
     */
-    articleController.getSpecifiedArticle(req,res);
-  
-  })
-  
+      articleController.getSpecifiedArticle(req, res);
+    }
+  );
+
   // get data
   router.get("/api/allArticle", (req, res) => {
     /* 
@@ -103,13 +104,13 @@ export default (router: express.Router) => {
     articleController.getAll(req, res);
   });
 
-  router.get('/api/search',checkAuthCookie.checkAuthCookie,(req,res)=>{
-    articleController.search(req,res);
-  })
+  router.get("/api/search", checkAuthCookie.checkAuthCookie, (req, res) => {
+    articleController.search(req, res);
+  });
 
-  router.delete('/api/article',(req,res)=>{
-      articleController.deleteWithoutContent(req,res);
-  })
+  router.delete("/api/article", (req, res) => {
+    articleController.deleteWithoutContent(req, res);
+  });
 
   // create data
   router.post("/api/article", (req, res) => {
