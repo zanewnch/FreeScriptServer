@@ -34,6 +34,13 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    origin: "http://58.115.128.46:5173", // Another frontend's URL
+    credentials: true,
+  })
+);
+
 // 设置 Express 使用 EJS 模板引擎
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
