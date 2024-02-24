@@ -30,25 +30,25 @@ app.use(express.static(path.join(__dirname, "public")));
 // cors config for localhost
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your frontend's URL
+    origin: ["http://localhost:5173","http://58.115.128.46:5173","*"], // Your frontend's URL
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
 // cors config for local server 
-app.use(
-  cors({
-    origin: "http://58.115.128.46:5173", // Another frontend's URL
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://58.115.128.46:5173", // Another frontend's URL
+//     credentials: true,
+//   })
+// );
 
 // cors config for all origins
-app.use(
-  cors({
-    origin: "*", // Allow requests from any origin
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  })
-);
+// app.use(
+//   cors({
+//     origin: "*", // Allow requests from any origin
+//     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+//   })
+// );
 
 // 设置 Express 使用 EJS 模板引擎
 app.set('view engine', 'ejs');
