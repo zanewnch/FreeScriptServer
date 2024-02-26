@@ -2,7 +2,7 @@ import express from "express";
 import { Result } from "../utils/Result";
 import { ArticleController } from "../controller/ArticleController";
 import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
-
+// !supertest library for testing api
 export default (router: express.Router) => {
   const articleController = new ArticleController();
   const checkAuthCookie = new CheckAuthCookie();
