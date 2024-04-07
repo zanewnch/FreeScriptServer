@@ -1,8 +1,8 @@
 import express from "express";
 import { UserController } from "../controller/UserController";
-import { Knex } from "../repository/Knex";
+import { Knex } from "../model/Knex";
 import { Result } from "../utils/Result";
-import { UserRepo } from "../repository/UserRepo";
+import { UserRepo } from "../model/UserRepo";
 import { AutoFill } from "../middleware/AutoFill";
 import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 // 在test階段, 先不用mvc structure, 先把所有的code寫在router裡面 來加速開發效率

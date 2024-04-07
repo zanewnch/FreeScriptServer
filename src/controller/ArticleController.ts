@@ -1,4 +1,4 @@
-import { ArticleRepo } from "../repository/ArticleRepo";
+import { ArticleRepo } from "../model/ArticleRepo";
 import express from "express";
 import { Article, ArticleDocument } from "interface/ArticleInterface";
 import { Result } from "../utils/Result";

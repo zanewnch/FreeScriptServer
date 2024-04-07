@@ -1,5 +1,5 @@
 import express from "express";
-import { MySQL } from "../repository/MySQL";
+import { MySQL } from "../model/MySQL";
 
 const mysql = new MySQL();
 const connection = mysql.connection;

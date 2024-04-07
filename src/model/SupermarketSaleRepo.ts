@@ -1,5 +1,5 @@
 import { Knex } from "./Knex";
-import { SupermarketSale } from "../model/SupermarketSale";
+import { SupermarketSale } from "../interface/SupermarketSale";
 export class SupermarketSaleRepo {
   private knex: Knex;
 

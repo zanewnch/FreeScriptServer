@@ -11,6 +11,8 @@ import path from "path";
 
 import "dotenv/config";
 
+// 可以用 app.use 來做global authentication, 就是連線到任何route 的時候 都會先run app.use
+
 // use dotenv to load the .env file
 // this code would load the .env file and set the environment variable
 require("dotenv").config({ path: __dirname + "/.env" });
@@ -56,6 +58,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 // swagger related cofig
+// 這裡的path就是swagger ui path
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(compression());

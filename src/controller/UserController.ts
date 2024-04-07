@@ -1,8 +1,8 @@
 import express from "express";
-import { MySQL } from "../repository/MySQL";
-import { Knex } from "../repository/Knex";
+import { MySQL } from "../model/MySQL";
+import { Knex } from "../model/Knex";
 import { User } from "../interface/UserInterface";
-import { UserRepo } from "../repository/UserRepo";
+import { UserRepo } from "../model/UserRepo";
 import { Result } from "../utils/Result";
 import jwt from "jsonwebtoken";
 

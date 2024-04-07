@@ -1,6 +1,6 @@
 import express from "express";
 import { SupermarketSaleController } from "../controller/SupermarketSaleController";
-import { Knex } from "../repository/Knex";
+import { Knex } from "../model/Knex";
 import { get } from "lodash";
 import { Result } from "../utils/Result";
 

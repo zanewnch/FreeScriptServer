@@ -1,4 +1,4 @@
-import { Knex } from "../repository/Knex";
+import { Knex } from "../model/Knex";
 
 const knex = new Knex();
 
