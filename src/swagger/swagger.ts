@@ -2,7 +2,7 @@
 
 import swaggerAutogen from "swagger-autogen";
 import { ArticleDef } from "./ArticleDef";
-import { UserDef } from './UserDef';
+import { UserDef } from "./UserDef";
 
 /* 
 definition part 等於是註冊成
@@ -41,91 +41,14 @@ const doc = {
       msg: "error message",
       data: "null",
     },
-    ArticleCreateParam: {
-      data: {
-        title: "New Article",
-        content: "This is a new article.",
-        author: "Author Name",
-        createdDate: "2022-01-01T00:00:00.000Z",
-        publishedDate: "2022-01-01T00:00:00.000Z",
-        updatedDate: "2022-01-01T00:00:00.000Z",
-        tag: "Tag",
-        like: 0,
-        views: 0,
-        summary: "Summary",
-        status: "Status",
-        comments: [
-          {
-            username: "Commenter",
-            content: "This is a comment.",
-            createdDate: "2022-01-01T00:00:00.000Z",
-          },
-        ],
-      },
-    },
-    ArticleCreate200: {
-      code: 1,
-      msg: "null",
-      data: {
-        _id: "65c1a9b4fba17f733db61663",
-        title: "New Article",
-        content: "This is a new article.",
-        author: "Author Name",
-        createdDate: "2022-01-01T00:00:00.000Z",
-        publishedDate: "2022-01-01T00:00:00.000Z",
-        updatedDate: "2022-01-01T00:00:00.000Z",
-        tag: "Tag",
-        like: 0,
-        views: 0,
-        summary: "Summary",
-        status: "Status",
-        comments: [
-          {
-            username: "Commenter",
-            content: "This is a comment.",
-            createdDate: "2022-01-01T00:00:00.000Z",
-            _id: "65c1a9b4fba17f733db61664",
-          },
-        ],
-        __v: 0,
-      },
-    },
-    ArticleGet200: [
-      {
-        code: 1,
-        msg: "null",
-        data: {
-          _id: "65c1a9b4fba17f733db61663",
-          title: "New Article",
-          content: "This is a new article.",
-          author: "Author Name",
-          createdDate: "2022-01-01T00:00:00.000Z",
-          publishedDate: "2022-01-01T00:00:00.000Z",
-          updatedDate: "2022-01-01T00:00:00.000Z",
-          tag: "Tag",
-          like: 0,
-          views: 0,
-          summary: "Summary",
-          status: "Status",
-          comments: [
-            {
-              username: "Commenter",
-              content: "This is a comment.",
-              createdDate: "2022-01-01T00:00:00.000Z",
-              _id: "65c1a9b4fba17f733db61664",
-            },
-          ],
-          __v: 0,
-        },
-      },
-    ],
+    ArticleCreateParam: ArticleDef.articleCreateParam,
+    ArticleCreate200: ArticleDef.articleCreate200,
+    ArticleGet200: ArticleDef.articleGet200,
     UserGet200: UserDef.UserGet200,
-    UserCreateParam:{
-      data:UserDef.UserGet200
-    }
+    UserCreateParam: {
+      data: UserDef.UserGet200,
+    },
   },
-  
-
 };
 
 const outputFile = "./swagger_output.json";
