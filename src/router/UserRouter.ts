@@ -2,18 +2,21 @@ import express from "express";
 
 import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 import { UserRepo } from "../model/UserRepo";
-import { UserController } from '../controller/UserController';
+import { UserController } from "../controller/UserController";
 
+// @ts-ignore
 export default (router: express.Router) => {
   const userRepo = new UserRepo();
   const userController = new UserController();
 
   router.post("/api/user", (req: express.Request, res: express.Response) => {
-      userController.insertUser(req, res);
+    userController.insertUser(req, res);
   });
 
-  router.post("/api/user/local-signIn",(req:express.Request,res:express.Response)=>{
-    /*
+  router.post(
+    "/api/user/local-signIn",
+    (req: express.Request, res: express.Response) => {
+      /*
 
     #swagger.tags = ['User']
     #swagger.summary = 'User local login'
@@ -37,12 +40,14 @@ export default (router: express.Router) => {
     }
     */
 
-    
-    userController.localSignIn(req, res);
-  })
+      userController.localSignIn(req, res);
+    }
+  );
 
-  router.post("/api/user/google-signIn",(req:express.Request,res:express.Response)=>{
-    /* 
+  router.post(
+    "/api/user/google-signIn",
+    (req: express.Request, res: express.Response) => {
+      /* 
     #swagger.tags = ['User']
     #swagger.summary = 'User google login'
 
@@ -65,8 +70,16 @@ export default (router: express.Router) => {
     }
     */
 
-    userController.googleSignIn(req, res);
+      userController.googleSignIn(req, res);
+    }
+  );
 
+  router.post(
+    "/api/user/test",
+    (req: express.Request, res: express.Response) => {
+      console.log(req.body);
 
-  })
+      userController.googleSignIn(req, res);
+    }
+  );
 };
