@@ -1,7 +1,7 @@
 import express from "express";
 import { MySQL } from "../model/MySQL";
 import { Knex } from "../model/Knex";
-import { User } from "../interface/UserInterface";
+
 import { Result } from "../utils/Result";
 import { SupermarketSaleRepo } from "../model/SupermarketSaleRepo";
 

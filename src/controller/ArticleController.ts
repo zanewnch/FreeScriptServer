@@ -11,11 +11,22 @@ export class ArticleController {
     this.articleRepo = new ArticleRepo();
   }
 
-  public getSpecifiedArticle = async (req: express.Request, res: express.Response) => {
-    try{
-      
-      res.status(200).json(Result.successWithData(await this.articleRepo.getSpecifiedArticle(req.params.author.replace(/-/g," "),req.params.title.replace(/-/g," "))));
-    }catch(e){
+  public getSpecifiedArticle = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
+    try {
+      res
+        .status(200)
+        .json(
+          Result.successWithData(
+            await this.articleRepo.getSpecifiedArticle(
+              req.params.author.replace(/-/g, " "),
+              req.params.title.replace(/-/g, " ")
+            )
+          )
+        );
+    } catch (e) {
       console.error(e);
       res.status(400).json(Result.error(e.message));
     }
@@ -28,34 +39,37 @@ export class ArticleController {
        */
       const pageNum = parseInt(req.query.pageNum as string);
       const pageSize = parseInt(req.query.pageSize as string);
-      const result:ArticleDocument[] = await this.articleRepo.getPaginatedArticles(
-        pageNum,
-        pageSize
-      );
-      
+      const result: ArticleDocument[] =
+        await this.articleRepo.getPaginatedArticles(pageNum, pageSize);
+
       res.status(200).json(Result.successWithData(result));
     } catch (e) {
       res.status(500).json(Result.error(e.message));
     }
   };
 
-  public search = async(req:express.Request,res:express.Response)=>{
-    try{
-      
-      let titleResult:ArticleDocument[] = [];
-      let authorResult:ArticleDocument[] = [];
-      
-      if(req.query.keyword){
-        titleResult = await this.articleRepo.getArticleByTitle(req.query['keyword'] as string);
-        authorResult = await this.articleRepo.getArticleByAuthor(req.query['keyword'] as string);
+  public search = async (req: express.Request, res: express.Response) => {
+    try {
+      let titleResult: ArticleDocument[] = [];
+      let authorResult: ArticleDocument[] = [];
+
+      if (req.query.keyword) {
+        titleResult = await this.articleRepo.getArticleByTitle(
+          req.query["keyword"] as string
+        );
+        authorResult = await this.articleRepo.getArticleByAuthor(
+          req.query["keyword"] as string
+        );
       }
 
-      return res.status(200).json(Result.successWithData(titleResult.concat(authorResult)));
-  }catch(e){
-    console.error(e);
-    res.status(400).json(Result.error(e.message));
-  }
-}
+      return res
+        .status(200)
+        .json(Result.successWithData(titleResult.concat(authorResult)));
+    } catch (e) {
+      console.error(e);
+      res.status(400).json(Result.error(e.message));
+    }
+  };
 
   public getAll = async (req: express.Request, res: express.Response) => {
     try {
@@ -121,7 +135,10 @@ export class ArticleController {
     }
   };
 
-  public deleteWithoutContent = async (req:express.Request,res:express.Response)=>{
+  public deleteWithoutContent = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
     try {
       const result = await this.articleRepo.deleteDataWithoutContent();
       console.log(result);
@@ -129,7 +146,7 @@ export class ArticleController {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   public create = async (req: express.Request, res: express.Response) => {
     try {

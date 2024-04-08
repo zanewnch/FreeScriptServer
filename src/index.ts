@@ -69,11 +69,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/", router());
 
-// const MONGO_URL = ''; // DB URI
-
-// mongoose.Promise = Promise;
-// mongoose.connect(MONGO_URL);
-// mongoose.connection.on('error', (error: Error) => console.log(error));
 
 
 mongoose.Promise = Promise;

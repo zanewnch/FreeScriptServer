@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { Article, ArticleDocument } from "../interface/ArticleInterface";
 // a collection is similar to table, and a document is similar to a row of data
 
@@ -59,17 +59,23 @@ export class ArticleRepo {
     }
   };
 
-  public getSpecifiedArticle = async(
-    author:string,title:string
-  ):Promise<ArticleDocument[]>=>{
-    try{
+  public getSpecifiedArticle = async (
+    author: string,
+    title: string
+  ): Promise<ArticleDocument[]> => {
+    try {
       const regexAuthor = new RegExp(author, "i");
       const regexTitle = new RegExp(title, "i");
-      return await this.model.find({ author:{$regex:regexAuthor },title: { $regex: regexTitle } }).exec();
-    }catch(e){
+      return await this.model
+        .find({
+          author: { $regex: regexAuthor },
+          title: { $regex: regexTitle },
+        })
+        .exec();
+    } catch (e) {
       console.error(e.message);
     }
-  }
+  };
 
   public getArticleByTitle = async (
     title: string
@@ -83,7 +89,6 @@ export class ArticleRepo {
     }
   };
 
-
   public getArticleByAuthor = async (
     author: string
   ): Promise<ArticleDocument[]> => {
@@ -96,7 +101,7 @@ export class ArticleRepo {
       console.log(e);
     }
   };
-
+  // get all articles
   public getArticles = async (): Promise<ArticleDocument[]> => {
     try {
       return this.model.find().exec();
