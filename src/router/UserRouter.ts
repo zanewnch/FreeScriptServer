@@ -39,6 +39,7 @@ export default (router: express.Router) => {
       schema: { $ref: "#/definitions/error" }
     }
     */
+      
 
       userController.localSignIn(req, res);
     }
@@ -74,12 +75,5 @@ export default (router: express.Router) => {
     }
   );
 
-  router.post(
-    "/api/user/test",
-    (req: express.Request, res: express.Response) => {
-      console.log(req.body);
-
-      userController.googleSignIn(req, res);
-    }
-  );
+  
 };

@@ -347,16 +347,6 @@
         }
       }
     },
-    "/api/user/test": {
-      "post": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/supermarket": {
       "get": {
         "description": "",
