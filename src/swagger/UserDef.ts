@@ -1,10 +1,31 @@
 export class UserDef {
-  public static UserGet200 = {
-    id: 7,
-    username: "eee",
-    password: "zane",
-    registration_date: "2023-12-31T07:30:00.000Z",
-    last_login_date: "2023-12-31T07:30:00.000Z",
-    user_status: "1",
-  };
+  public static UserLocalSignIn = {
+    JWTToken: "dummyToken123456",
+    email: "dummyEmail@example.com",
+    displayName: "Dummy User",
+    photoURL: "https://example.com/dummy-photo.jpg",
+    providerId: "dummyProviderId",
+    localAccount: "dummyLocalAccount",
+    localPassword: "dummyLocalPassword",
+    role: "dummyRole",
+    createTime: new Date(),
+    loginTime: new Date(),
+    username: "dummyUsername",
+    password: "dummyPassword",
+  }
+
+  public static UserGoogleSignIn = {
+    JWTToken: "dummyToken123456",
+    email: "dummyEmail@example.com",
+    displayName: "Dummy User",
+    photoURL: "https://example.com/dummy-photo.jpg",
+    providerId: "dummyProviderId",
+    localAccount: "dummyLocalAccount",
+    localPassword: "dummyLocalPassword",
+    role: "dummyRole",
+    createTime: new Date(),
+    loginTime: new Date(),
+    username: "dummyUsername",
+    password: "dummyPassword",
+  }
 }

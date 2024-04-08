@@ -19,4 +19,40 @@ export class UserController {
       res.status(400).json(Result.error(e.message));
     }
   }
+
+  public localSignIn = async (req: express.Request, res: express.Response) => {
+    try{
+      const body: User = req.body;
+      const result = await this.userRepo.getByLocalAccount(body);
+
+      // if the user is not found
+      if(!result){
+        res.status(400).json(Result.error("User not found"));
+        return;
+      }else{
+        res.status(200).json(Result.success());
+      }
+
+    }catch(e){
+      res.status(400).json(Result.error(e.message));
+    }
+  }
+
+  public googleSignIn = async (req: express.Request, res: express.Response) => {
+    try{
+      const body: User = req.body;
+      const result = await this.userRepo.getGoogleAccount(body);
+
+      // if the user is not found
+      if(!result){
+        res.status(400).json(Result.error("User not found"));
+        return;
+      }else{
+        res.status(200).json(Result.success());
+      }
+
+    }catch(e){
+      res.status(400).json(Result.error(e.message));
+    }
+  }
 }

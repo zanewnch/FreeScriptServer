@@ -12,6 +12,8 @@ const userSchema: Schema = new Schema({
   role: { type: String, required: false },
   createTime: { type: Date, required: false },
   loginTime: { type: Date, required: false },
+  username: { type: String, required: false },
+  password: { type: String, required: false },
 });
 
 export class UserRepo {
@@ -40,6 +42,32 @@ export class UserRepo {
     try {
       const newUser = new this.model(user);
       return newUser.save();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  public getByLocalAccount = async (
+    user: User
+  ): Promise<UserDocument[] | [] | void> => {
+    try {
+      return await this.model.findOne({
+        username: user["username"],
+        password: user["password"],
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  public getGoogleAccount = async (
+    user: User
+  ): Promise<UserDocument[] | [] | void> => {
+    try {
+      return await this.model.findOne({
+        username: user["displayName"],
+        password: user["providerId"],
+      });
     } catch (e) {
       console.log(e);
     }

@@ -270,49 +270,22 @@
       }
     },
     "/api/user": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "get user data",
-        "description": "if request without any query string, it will return all user data, if request with query string, it will return user data by query string",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "description": "user id",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "user name",
-            "required": false,
-            "type": "string"
-          }
-        ],
+      "post": {
+        "description": "",
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/UserGet200"
-            }
-          },
-          "500": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/error"
-            }
+          "default": {
+            "description": ""
           }
         }
-      },
+      }
+    },
+    "/api/user/local-signIn": {
       "post": {
         "tags": [
           "User"
         ],
-        "summary": "create user",
-        "description": "create user",
+        "summary": "User local login",
+        "description": "",
         "parameters": [
           {
             "name": "data",
@@ -320,7 +293,7 @@
             "description": "user data",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserCreateParam"
+              "$ref": "#/definitions/UserLocalSignIn"
             }
           }
         ],
@@ -328,23 +301,25 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/UserGet200"
+              "$ref": "#/definitions/success"
             }
           },
-          "500": {
+          "400": {
             "description": "Error",
             "schema": {
               "$ref": "#/definitions/error"
             }
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/user/google-signIn": {
+      "post": {
         "tags": [
           "User"
         ],
-        "summary": "update user",
-        "description": "update user",
+        "summary": "User google login",
+        "description": "",
         "parameters": [
           {
             "name": "data",
@@ -352,7 +327,7 @@
             "description": "user data",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserGetParam"
+              "$ref": "#/definitions/UserGoogleSignIn"
             }
           }
         ],
@@ -360,108 +335,14 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/UserGet200"
+              "$ref": "#/definitions/success"
             }
-          }
-        }
-      }
-    },
-    "/api/user/{id}": {
-      "delete": {
-        "tags": [
-          "User"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/user/login": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/user/register": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/user/userStatusList": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/user/totalDataAmount": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/user/{pageNum}/{pageSize}": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "pageNum",
-            "in": "path",
-            "required": true,
-            "type": "string"
           },
-          {
-            "name": "pageSize",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
+          "400": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       }
@@ -800,162 +681,202 @@
       }
     },
     "ArticleGet200": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "number",
-            "example": 1
-          },
-          "msg": {
-            "type": "string",
-            "example": "null"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string",
-                "example": "65c1a9b4fba17f733db61663"
-              },
-              "title": {
-                "type": "string",
-                "example": "New Article"
-              },
-              "content": {
-                "type": "string",
-                "example": "This is a new article."
-              },
-              "author": {
-                "type": "string",
-                "example": "Author Name"
-              },
-              "createdDate": {
-                "type": "string",
-                "example": "2022-01-01T00:00:00.000Z"
-              },
-              "publishedDate": {
-                "type": "string",
-                "example": "2022-01-01T00:00:00.000Z"
-              },
-              "updatedDate": {
-                "type": "string",
-                "example": "2022-01-01T00:00:00.000Z"
-              },
-              "tag": {
-                "type": "string",
-                "example": "Tag"
-              },
-              "like": {
-                "type": "number",
-                "example": 0
-              },
-              "views": {
-                "type": "number",
-                "example": 0
-              },
-              "summary": {
-                "type": "string",
-                "example": "Summary"
-              },
-              "status": {
-                "type": "string",
-                "example": "Status"
-              },
-              "comments": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "username": {
-                      "type": "string",
-                      "example": "Commenter"
-                    },
-                    "content": {
-                      "type": "string",
-                      "example": "This is a comment."
-                    },
-                    "createdDate": {
-                      "type": "string",
-                      "example": "2022-01-01T00:00:00.000Z"
-                    },
-                    "_id": {
-                      "type": "string",
-                      "example": "65c1a9b4fba17f733db61664"
-                    }
-                  }
-                }
-              },
-              "__v": {
-                "type": "number",
-                "example": 0
-              }
-            }
-          }
-        }
-      }
-    },
-    "UserGet200": {
       "type": "object",
       "properties": {
-        "id": {
+        "code": {
           "type": "number",
-          "example": 7
+          "example": 1
         },
-        "username": {
+        "msg": {
           "type": "string",
-          "example": "eee"
+          "example": "null"
         },
-        "password": {
-          "type": "string",
-          "example": "zane"
-        },
-        "registration_date": {
-          "type": "string",
-          "example": "2023-12-31T07:30:00.000Z"
-        },
-        "last_login_date": {
-          "type": "string",
-          "example": "2023-12-31T07:30:00.000Z"
-        },
-        "user_status": {
-          "type": "string",
-          "example": "1"
-        }
-      }
-    },
-    "UserCreateParam": {
-      "type": "object",
-      "properties": {
         "data": {
           "type": "object",
           "properties": {
-            "id": {
+            "_id": {
+              "type": "string",
+              "example": "65c1a9b4fba17f733db61663"
+            },
+            "title": {
+              "type": "string",
+              "example": "New Article"
+            },
+            "content": {
+              "type": "string",
+              "example": "This is a new article."
+            },
+            "author": {
+              "type": "string",
+              "example": "Author Name"
+            },
+            "createdDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "publishedDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "updatedDate": {
+              "type": "string",
+              "example": "2022-01-01T00:00:00.000Z"
+            },
+            "tag": {
+              "type": "string",
+              "example": "Tag"
+            },
+            "like": {
               "type": "number",
-              "example": 7
+              "example": 0
             },
-            "username": {
-              "type": "string",
-              "example": "eee"
+            "views": {
+              "type": "number",
+              "example": 0
             },
-            "password": {
+            "summary": {
               "type": "string",
-              "example": "zane"
+              "example": "Summary"
             },
-            "registration_date": {
+            "status": {
               "type": "string",
-              "example": "2023-12-31T07:30:00.000Z"
+              "example": "Status"
             },
-            "last_login_date": {
-              "type": "string",
-              "example": "2023-12-31T07:30:00.000Z"
+            "comments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "Commenter"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "This is a comment."
+                  },
+                  "createdDate": {
+                    "type": "string",
+                    "example": "2022-01-01T00:00:00.000Z"
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "65c1a9b4fba17f733db61664"
+                  }
+                }
+              }
             },
-            "user_status": {
-              "type": "string",
-              "example": "1"
+            "__v": {
+              "type": "number",
+              "example": 0
             }
           }
+        }
+      }
+    },
+    "UserLocalSignIn": {
+      "type": "object",
+      "properties": {
+        "JWTToken": {
+          "type": "string",
+          "example": "dummyToken123456"
+        },
+        "email": {
+          "type": "string",
+          "example": "dummyEmail@example.com"
+        },
+        "displayName": {
+          "type": "string",
+          "example": "Dummy User"
+        },
+        "photoURL": {
+          "type": "string",
+          "example": "https://example.com/dummy-photo.jpg"
+        },
+        "providerId": {
+          "type": "string",
+          "example": "dummyProviderId"
+        },
+        "localAccount": {
+          "type": "string",
+          "example": "dummyLocalAccount"
+        },
+        "localPassword": {
+          "type": "string",
+          "example": "dummyLocalPassword"
+        },
+        "role": {
+          "type": "string",
+          "example": "dummyRole"
+        },
+        "createTime": {
+          "type": "object",
+          "properties": {}
+        },
+        "loginTime": {
+          "type": "object",
+          "properties": {}
+        },
+        "username": {
+          "type": "string",
+          "example": "dummyUsername"
+        },
+        "password": {
+          "type": "string",
+          "example": "dummyPassword"
+        }
+      }
+    },
+    "UserGoogleSignIn": {
+      "type": "object",
+      "properties": {
+        "JWTToken": {
+          "type": "string",
+          "example": "dummyToken123456"
+        },
+        "email": {
+          "type": "string",
+          "example": "dummyEmail@example.com"
+        },
+        "displayName": {
+          "type": "string",
+          "example": "Dummy User"
+        },
+        "photoURL": {
+          "type": "string",
+          "example": "https://example.com/dummy-photo.jpg"
+        },
+        "providerId": {
+          "type": "string",
+          "example": "dummyProviderId"
+        },
+        "localAccount": {
+          "type": "string",
+          "example": "dummyLocalAccount"
+        },
+        "localPassword": {
+          "type": "string",
+          "example": "dummyLocalPassword"
+        },
+        "role": {
+          "type": "string",
+          "example": "dummyRole"
+        },
+        "createTime": {
+          "type": "object",
+          "properties": {}
+        },
+        "loginTime": {
+          "type": "object",
+          "properties": {}
+        },
+        "username": {
+          "type": "string",
+          "example": "dummyUsername"
+        },
+        "password": {
+          "type": "string",
+          "example": "dummyPassword"
         }
       }
     }

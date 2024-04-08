@@ -44,10 +44,8 @@ const doc = {
     ArticleCreateParam: ArticleDef.articleCreateParam,
     ArticleCreate200: ArticleDef.articleCreate200,
     ArticleGet200: ArticleDef.articleGet200,
-    UserGet200: UserDef.UserGet200,
-    UserCreateParam: {
-      data: UserDef.UserGet200,
-    },
+    UserLocalSignIn:UserDef.UserLocalSignIn,
+    UserGoogleSignIn:UserDef.UserGoogleSignIn,
   },
 };
 

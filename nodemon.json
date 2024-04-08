@@ -3,6 +3,8 @@
   "ext": ".ts,.js",
   "exec": "ts-node ./src/index.ts",
   "events": {
-    "restartStop": "the original attribute name is restart,with events:restart, the nodemon will run the following code snippet on each hot reload, ex: npm run swagger"
+    "restartStoppp": "the original attribute name is restart,with events:restart, the nodemon will run the following code snippet on each hot reload, ex: npm run swagger",
+    "restart": "npm run swagger"
+    
   }
 }
