@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev":"nodemon",
     "start": "nodemon",
     "test": "jest --watchAll --verbose",
     "devOldEdition": "nodemon",
     "swagger": "ts-node ./src/swagger/swagger.ts",
-    "dev": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
+    "devswc": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
     "watch-compile": "swc src -w --out-dir dist",
     "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/server.js"
   },
@@ -65,5 +66,8 @@
     "socket.io": "^4.7.4",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.0"
+  },
+  "comments":{
+    "theScriptBug":"it can not find .swcrc file in windows system, so in windows system, just use 'npm run start' but not 'npm run dev'"
   }
 }
