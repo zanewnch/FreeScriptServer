@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"nodemon",
+    "dev": "nodemon",
     "start": "nodemon",
     "test": "jest --watchAll --verbose",
     "devOldEdition": "nodemon",
@@ -13,14 +13,14 @@
     "watch-compile": "swc src -w --out-dir dist",
     "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/server.js"
   },
-  "SWCscripts":{
+  "SWCscripts": {
     "dev": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
     "watch-compile": "swc src -w --out-dir dist",
     "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/server.js",
     "build": "swc src -d dist",
     "start": "NODE_ENV=production node dist/server.js",
-    "theScriptSource":"https://mosano.eu/post/node-swc-ts/",
-    "SWCexplain":"SWC is the more faster tool to compile ts file to js file"
+    "theScriptSource": "https://mosano.eu/post/node-swc-ts/",
+    "SWCexplain": "SWC is the more faster tool to compile ts file to js file"
   },
   "keywords": [],
   "author": "",
@@ -67,7 +67,7 @@
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.0"
   },
-  "comments":{
-    "theScriptBug":"it can not find .swcrc file in windows system, so in windows system, just use 'npm run start' but not 'npm run dev'"
+  "comments": {
+    "theScriptBug": "it can not find .swcrc file in windows system, so in windows system, just use 'npm run start' but not 'npm run dev'"
   }
 }

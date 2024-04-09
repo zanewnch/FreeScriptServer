@@ -3,6 +3,7 @@ import { Result } from "../utils/Result";
 
 import { UserRepo } from "../model/UserRepo";
 import { User } from "interface/UserInterface";
+import { JWT } from "../utils/JWT";
 
 export class UserController {
   private userRepo: UserRepo;
@@ -56,4 +57,14 @@ export class UserController {
       res.status(200).json(Result.error(e.message));
     }
   };
+
+  public generateLocalJwtToken = async (req: express.Request,res:express.Response) => {
+    
+    const user = req.body;
+    
+
+    const jwtToken = JWT.createToken(user['username']);
+
+    res.status(200).json(Result.successWithData(jwtToken));
+}
 }

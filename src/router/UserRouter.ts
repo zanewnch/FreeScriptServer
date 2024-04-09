@@ -75,5 +75,10 @@ export default (router: express.Router) => {
     }
   );
 
+  router.post("/api/user/local-jwt", (req: express.Request, res: express.Response) => {
+    userController.generateLocalJwtToken(req, res);
+
+  });
+
   
 };

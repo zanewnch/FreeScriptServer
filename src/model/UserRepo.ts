@@ -14,6 +14,7 @@ const userSchema: Schema = new Schema({
   loginTime: { type: Date, required: false },
   username: { type: String, required: false },
   password: { type: String, required: false },
+  localJWTToken: { type: String, required: false },
 });
 
 export class UserRepo {
