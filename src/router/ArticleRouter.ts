@@ -20,7 +20,7 @@ export default (router: express.Router) => {
     });
   });
 
-  router.get("/api/article", (req, res) => {
+  router.get("/api/article",checkAuthCookie.checkAuthCookie, (req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'get article by pagination'
@@ -90,7 +90,7 @@ export default (router: express.Router) => {
   );
 
   // get data
-  router.get("/api/allArticle", (req, res) => {
+  router.get("/api/allArticle",checkAuthCookie.checkAuthCookie, (req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'Get all articles'
@@ -109,12 +109,12 @@ export default (router: express.Router) => {
     articleController.search(req, res);
   });
 
-  router.delete("/api/article", (req, res) => {
+  router.delete("/api/article", checkAuthCookie.checkAuthCookie,(req, res) => {
     articleController.deleteWithoutContent(req, res);
   });
 
   // create data
-  router.post("/api/article", (req, res) => {
+  router.post("/api/article", checkAuthCookie.checkAuthCookie,(req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'Create an article'
@@ -147,10 +147,12 @@ export default (router: express.Router) => {
   });
 
   // publish
-  router.post("/api/article/publish", articleController.publish);
+  router.post("/api/article/publish", checkAuthCookie.checkAuthCookie,(req,res)=>{
+    articleController.publish(req,res);
+  });
 
   // test for knowing frontend send data
-  router.get("/api/test", (req, res) => {
+  router.get("/api/test", checkAuthCookie.checkAuthCookie,(req, res) => {
     /* 
       這邊的syntax 是使用 swagger 2.0
 
@@ -226,7 +228,7 @@ export default (router: express.Router) => {
       res.status(200).json(Result.successWithData(result));
     }
   });
-  router.post("/api/test", (req, res) => {
+  router.post("/api/test",checkAuthCookie.checkAuthCookie ,(req, res) => {
     // which mean request with query string
     if (Object.keys(req.query).length !== 0) {
       const result: object = req.query;

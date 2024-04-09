@@ -3,14 +3,19 @@ import jwt from "jsonwebtoken";
 
 export class JWT {
     public static createToken = (username: string) => {
-        const payload = { username };
-        return jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-        });
+        const payload = {
+            sub: '1234567890',
+            name: username,
+            iat: 1516239022
+          };
+        // return jwt.sign(payload, process.env.JWT_SECRET, {
+        // expiresIn: "240h",
+        // });
+        return jwt.sign(payload, process.env.JWT_SECRET);
     };
     
     public static verifyToken = (token: string) => {
-        return jwt.verify(token, process.env.JWT_SECRET);
+        if( jwt.verify(token, process.env.JWT_SECRET)) return true;
     };
 
     public static decodeToken = (token: string) => {

@@ -1,6 +1,8 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-// !這邊邏輯需要改
+import { Result } from "../utils/Result";
+import { JWT } from "../utils/JWT";
+
 export class CheckAuthCookie {
   public checkAuthCookie = (
     req: express.Request,
@@ -8,8 +10,8 @@ export class CheckAuthCookie {
     next: express.NextFunction
   ): void | express.Response<any, Record<string, any>> => {
     // for testing, just directly return next()
-    console.log("checkAuthCookie");
-    // return next();
+    
+
     try {
       // Allow requests to "/login" and "/register" to proceed without requiring authToken
       if (
@@ -19,18 +21,27 @@ export class CheckAuthCookie {
         return next();
       }
 
-      const token:string = req.cookies["authToken"];
+      if (req.headers["authorizationlocal"]) {
+        const token: string | string[] = req.headers["authorizationlocal"];
 
-      if (!token) {
-        res.sendStatus(401);
-        return next();
+        if (typeof token === "string") {
+          let actualToken = token.split(" ")[1];
+          if(JWT.verifyToken(actualToken)) return next();
+          
+        }
+      } else if (req.headers["authorizationgoogle"]) {
+        const token: string | string[] = req.headers["authorizationgoogle"];
+
+        if (typeof token === "string") {
+          /* 
+          這邊先不驗證  因為這是google 提供的jwt 應該要直接去db select 看有沒有才對
+          */
+
+          return next();
+        }
+      } else {
+        res.status(200).json(Result.error("No token found"));
       }
-
-      jwt.verify(token, "zane", (err: any, user: any) => {
-        if (err) return res.sendStatus(403);
-        // user example: {zane:"zane"}
-        return next();
-      });
     } catch (e) {
       console.log(e);
     }
