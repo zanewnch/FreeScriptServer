@@ -87,4 +87,9 @@ export default (router: express.Router) => {
       userController.generateLocalJwtToken(req, res);
     }
   );
+
+  router.put("/api/user", checkAuthCookie.checkAuthCookie, (req, res) => {
+    console.log("aaa");
+    userController.updateUser(req, res);
+  });
 };

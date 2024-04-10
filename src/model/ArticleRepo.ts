@@ -44,6 +44,8 @@ export class ArticleRepo {
     }
   };
 
+  
+
   public getPaginatedArticles = async (
     pageNum: number,
     pageSize: number
@@ -109,6 +111,17 @@ export class ArticleRepo {
       console.log(e);
     }
   };
+
+  public getStaffPicks = async()=>{
+    try {
+      return await this.model.aggregate([
+        { $match: { views: { $gt: 500 } } },
+        { $sample: { size: 3 } }
+      ]).exec();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   /**
    * Normal create method, just send the Article to this method

@@ -3,10 +3,12 @@ import { Result } from "../utils/Result";
 import { ArticleController } from "../controller/ArticleController";
 import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 // !supertest library for testing api
+import { ArticleRepo } from "../model/ArticleRepo";
 
 export default (router: express.Router) => {
   const articleController = new ArticleController();
   const checkAuthCookie = new CheckAuthCookie();
+  const articleRepo = new ArticleRepo();
 
   /*
     swagger autogen 有一個bug, 如果沒有在router裡面直接寫function, 而是直接 controller, 不管在router function or controller function add swagger comment 他都會找不到.
@@ -20,7 +22,7 @@ export default (router: express.Router) => {
     });
   });
 
-  router.get("/api/article",checkAuthCookie.checkAuthCookie, (req, res) => {
+  router.get("/api/article", checkAuthCookie.checkAuthCookie, (req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'get article by pagination'
@@ -90,7 +92,7 @@ export default (router: express.Router) => {
   );
 
   // get data
-  router.get("/api/allArticle",checkAuthCookie.checkAuthCookie, (req, res) => {
+  router.get("/api/allArticle", checkAuthCookie.checkAuthCookie, (req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'Get all articles'
@@ -109,12 +111,12 @@ export default (router: express.Router) => {
     articleController.search(req, res);
   });
 
-  router.delete("/api/article", checkAuthCookie.checkAuthCookie,(req, res) => {
+  router.delete("/api/article", checkAuthCookie.checkAuthCookie, (req, res) => {
     articleController.deleteWithoutContent(req, res);
   });
 
   // create data
-  router.post("/api/article", checkAuthCookie.checkAuthCookie,(req, res) => {
+  router.post("/api/article", checkAuthCookie.checkAuthCookie, (req, res) => {
     /* 
     #swagger.tags = ['Article']
     #swagger.summary = 'Create an article'
@@ -147,12 +149,42 @@ export default (router: express.Router) => {
   });
 
   // publish
-  router.post("/api/article/publish", checkAuthCookie.checkAuthCookie,(req,res)=>{
-    articleController.publish(req,res);
+  router.post(
+    "/api/article/publish",
+    checkAuthCookie.checkAuthCookie,
+    (req, res) => {
+      articleController.publish(req, res);
+    }
+  );
+
+  router.get("/api/article/staff-picks", async (req, res) => {
+    /* 
+
+    #swagger.tags = ['Article']
+    #swagger.summary = 'Get staff picks for 3 articles'
+    #swagger.description = 'Get staff picks description'
+    #swagger.responses[200] = {
+      description: 'Success',
+      schema: {
+        $ref: "#/definitions/staffPicksGet200"
+      }
+    }
+
+    #swagger.responses[500] = {
+      description: 'Error',
+      schema: {
+        $ref: "#/definitions/error"
+      }
+    }
+
+    */
+    const result: object[] = await articleRepo.getStaffPicks();
+    console.log(result);
+    res.status(200).json(Result.successWithData(result));
   });
 
   // test for knowing frontend send data
-  router.get("/api/test", checkAuthCookie.checkAuthCookie,(req, res) => {
+  router.get("/api/test", checkAuthCookie.checkAuthCookie, (req, res) => {
     /* 
       這邊的syntax 是使用 swagger 2.0
 
@@ -228,7 +260,7 @@ export default (router: express.Router) => {
       res.status(200).json(Result.successWithData(result));
     }
   });
-  router.post("/api/test",checkAuthCookie.checkAuthCookie ,(req, res) => {
+  router.post("/api/test", checkAuthCookie.checkAuthCookie, (req, res) => {
     // which mean request with query string
     if (Object.keys(req.query).length !== 0) {
       const result: object = req.query;

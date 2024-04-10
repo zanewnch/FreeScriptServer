@@ -46,6 +46,7 @@ const doc = {
     ArticleGet200: ArticleDef.articleGet200,
     UserLocalSignIn:UserDef.UserLocalSignIn,
     UserGoogleSignIn:UserDef.UserGoogleSignIn,
+    staffPicksGet200: ArticleDef.staffPicksGet200,
   },
 };
 

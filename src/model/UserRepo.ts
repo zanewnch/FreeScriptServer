@@ -41,6 +41,7 @@ export class UserRepo {
 
   public insertUser = async (user: User): Promise<UserDocument> => {
     try {
+      /* 既使傳的data沒有 createTime and updateTime, 還是可以成功insert */
       const newUser = new this.model(user);
       return newUser.save();
     } catch (e) {
@@ -72,5 +73,24 @@ export class UserRepo {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  public updateUser = async (user: User): Promise<void> => {
+    try{
+      const result = await this.model.updateOne(
+        { username: user["username"] },
+        { password: user["password"] }
+      );
+      if(result['matchedCount'] === 0) {
+        console.log("No user found");
+      }else {
+        console.log("update");
+      }
+
+      console.log(result);
+    }catch(e) {
+      console.log(e.message);
+    }
+
   };
 }

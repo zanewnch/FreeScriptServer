@@ -13,6 +13,7 @@ export class UserController {
 
   public insertUser = async (req: express.Request, res: express.Response) => {
     try {
+      
       const body: User = req.body;
       this.userRepo.insertUser(body);
       res.status(200).json(Result.success());
@@ -67,4 +68,14 @@ export class UserController {
 
     res.status(200).json(Result.successWithData(jwtToken));
 }
+
+  public updateUser = async (req: express.Request, res: express.Response) => {
+    try {
+      const body: User = req.body;
+      this.userRepo.updateUser(body);
+      res.status(200).json(Result.success());
+    } catch (e) {
+      res.status(200).json(Result.error(e.message));
+    }
+  }
 }
