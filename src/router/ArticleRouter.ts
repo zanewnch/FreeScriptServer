@@ -148,6 +148,28 @@ export default (router: express.Router) => {
     articleController.create(req, res);
   });
 
+  router.get(
+    "/api/article/specific-tags-articles",
+    checkAuthCookie.checkAuthCookie,
+    async (req, res) => {
+      let tag: any = req.query;
+      let result: object[] = await articleRepo.getSpecificTagsArticles(
+        tag["tags"]
+      );
+      console.log(result);
+      res.status(200).json(Result.successWithData(result));
+    }
+  );
+
+  router.get(
+    "/api/article/tags",
+    checkAuthCookie.checkAuthCookie,
+    async (req, res) => {
+      let result = await articleRepo.getTags();
+      res.status(200).json(Result.successWithData(result));
+    }
+  );
+
   // publish
   router.post(
     "/api/article/publish",

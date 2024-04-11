@@ -3,12 +3,15 @@ import express from "express";
 import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 import { UserRepo } from "../model/UserRepo";
 import { UserController } from "../controller/UserController";
+import { Result } from "../utils/Result";
 
 // @ts-ignore
 export default (router: express.Router) => {
   const userRepo = new UserRepo();
   const userController = new UserController();
   const checkAuthCookie = new CheckAuthCookie();
+
+  
 
   router.post(
     "/api/user",

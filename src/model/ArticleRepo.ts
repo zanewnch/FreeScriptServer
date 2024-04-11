@@ -35,6 +35,25 @@ export class ArticleRepo {
     this.model = mongoose.model<ArticleDocument>("Article", ArticleSchema);
   }
 
+  public getSpecificTagsArticles = async(tags:string)=>{
+    try {
+      return await this.model.find({tag:tags}).exec();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public getTags = async ()=>{
+    try {
+      return await this.model.aggregate([
+        { $group: { _id: "$tag" } },
+        { $sample: { size: 5 } }
+      ]).exec();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   public deleteDataWithoutContent = () => {
     try {
       // this method delete the documents which do not have content field

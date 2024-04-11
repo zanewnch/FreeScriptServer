@@ -23,6 +23,8 @@ export class UserRepo {
   constructor() {
     this.model = mongoose.model<UserDocument>("Users", userSchema);
   }
+  
+
 
   public getPaginatedUsers = async (
     pageNum: number,
@@ -41,7 +43,9 @@ export class UserRepo {
 
   public insertUser = async (user: User): Promise<UserDocument> => {
     try {
-      /* 既使傳的data沒有 createTime and updateTime, 還是可以成功insert */
+      /* 既使傳的data沒有 createTime and updateTime, 還是可以成功insert
+      前端傳什麼param, 就insert什麼param
+      */
       const newUser = new this.model(user);
       return newUser.save();
     } catch (e) {

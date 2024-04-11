@@ -180,6 +180,26 @@
         }
       }
     },
+    "/api/article/specific-tags-articles": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/article/tags": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/article/publish": {
       "post": {
         "description": "",
