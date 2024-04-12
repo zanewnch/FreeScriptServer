@@ -55,7 +55,7 @@ export class UserController {
         res.status(200).json(Result.error("User not found"));
         return;
       } else {
-        res.status(200).json(Result.success());
+        res.status(200).json(Result.successWithData(result));
       }
     } catch (e) {
       res.status(400).json(Result.error(e.message));
@@ -73,7 +73,7 @@ export class UserController {
         console.log("User not found");
         return;
       } else {
-        res.status(200).json(Result.success());
+        res.status(200).json(Result.successWithData(result));
       }
     } catch (e) {
       res.status(200).json(Result.error(e.message));

@@ -16,8 +16,8 @@ export default (router: express.Router) => {
     唯一的solution就是在router 寫function, 然後function 裡面再call controller and middleware(記得要傳req,res,next進去)
    */
 
-  router.get("/api/account-management", (req, res) => {
-    res.render("AccountManagement", {
+  router.get("/api/setting", (req, res) => {
+    res.render("SettingView", {
       username: "zanewnch",
     });
   });

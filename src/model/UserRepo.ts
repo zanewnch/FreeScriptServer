@@ -23,8 +23,6 @@ export class UserRepo {
   constructor() {
     this.model = mongoose.model<UserDocument>("Users", userSchema);
   }
-  
-
 
   public getPaginatedUsers = async (
     pageNum: number,
@@ -71,8 +69,8 @@ export class UserRepo {
   ): Promise<UserDocument[] | [] | void> => {
     try {
       return await this.model.findOne({
-        username: user["displayName"],
-        password: user["providerId"],
+        displayName: user["displayName"],
+        providerId: user["providerId"],
       });
     } catch (e) {
       console.log(e);
@@ -80,21 +78,20 @@ export class UserRepo {
   };
 
   public updateUser = async (user: User): Promise<void> => {
-    try{
+    try {
       const result = await this.model.updateOne(
         { username: user["username"] },
         { password: user["password"] }
       );
-      if(result['matchedCount'] === 0) {
+      if (result["matchedCount"] === 0) {
         console.log("No user found");
-      }else {
+      } else {
         console.log("update");
       }
 
       console.log(result);
-    }catch(e) {
+    } catch (e) {
       console.log(e.message);
     }
-
   };
 }
