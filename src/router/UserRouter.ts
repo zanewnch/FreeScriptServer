@@ -11,8 +11,6 @@ export default (router: express.Router) => {
   const userController = new UserController();
   const checkAuthCookie = new CheckAuthCookie();
 
-  
-
   router.post(
     "/api/user",
     checkAuthCookie.checkAuthCookie,
@@ -92,7 +90,13 @@ export default (router: express.Router) => {
   );
 
   router.put("/api/user", checkAuthCookie.checkAuthCookie, (req, res) => {
-    console.log("aaa");
+    /* 
+    
+    #swagger.tags = ['User']
+    #swagger.summary = 'Update user'
+
+
+    */
     userController.updateUser(req, res);
   });
 };

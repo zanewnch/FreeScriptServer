@@ -110,21 +110,19 @@ export class ArticleController {
        */
       const reqData: Partial<Article> = req.body["data"];
 
-      console.log(reqData);
+      
 
       /* 
         defaultArticle 是一个包含所有 Article 属性的对象，所有属性都被设置为 null。然后，我们使用展开运算符（...）将 req.body 中的数据合并到 defaultArticle 中，创建了一个新的 Article 对象 data。如果 req.body 中包含 Article 的某个属性，那么这个属性的值将覆盖 defaultArticle 中的 null 值。如果 req.body 中不包含 Article 的某个属性，那么 data 中这个属性的值将保持为 null。
          */
       // merge object
       const data: Article = { ...defaultArticle, ...reqData };
-      console.log("data:");
-      console.log(data);
+      
 
       // invoke db create method
       const result: ArticleDocument = await this.articleRepo.create(data);
 
-      console.log("result:");
-      console.log(result);
+      
 
       // response
       res.status(200).json(result);
@@ -141,7 +139,7 @@ export class ArticleController {
   ) => {
     try {
       const result = await this.articleRepo.deleteDataWithoutContent();
-      console.log(result);
+      
       res.status(200).json(Result.successWithData(result));
     } catch (e) {
       console.log(e);

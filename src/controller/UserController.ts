@@ -13,8 +13,31 @@ export class UserController {
 
   public insertUser = async (req: express.Request, res: express.Response) => {
     try {
-      
+      /* 
+        need to detect whether there is duplicate data
+        so use select query to check the data whether is exist
+
+        also need to check whether is google login or local login
+        because need to select different key 
+      */
+
       const body: User = req.body;
+
+      if (body["password"]) {
+        // which mean is local register
+        const result = await this.userRepo.getByLocalAccount(body);
+        if (result === null || result === undefined) {
+          res.status(200).json(Result.error("User already exist"));
+        }
+      } else if (body["displayName"]) {
+        // which mean is google register
+        const result = await this.userRepo.getGoogleAccount(body);
+
+        if (result === null || result === undefined) {
+          res.status(200).json(Result.error("User already exist"));
+        }
+      }
+
       this.userRepo.insertUser(body);
       res.status(200).json(Result.success());
     } catch (e) {
@@ -26,7 +49,6 @@ export class UserController {
     try {
       const body: User = req.body;
       const result = await this.userRepo.getByLocalAccount(body);
-      console.log(result);
 
       // if the user is not found
       if (!result) {
@@ -44,7 +66,6 @@ export class UserController {
     try {
       const body: User = req.body;
       const result = await this.userRepo.getGoogleAccount(body);
-      console.log(result);
 
       // if the user is not found
       if (!result) {
@@ -59,15 +80,16 @@ export class UserController {
     }
   };
 
-  public generateLocalJwtToken = async (req: express.Request,res:express.Response) => {
-    
+  public generateLocalJwtToken = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
     const user = req.body;
-    
 
-    const jwtToken = JWT.createToken(user['username']);
+    const jwtToken = JWT.createToken(user["username"]);
 
     res.status(200).json(Result.successWithData(jwtToken));
-}
+  };
 
   public updateUser = async (req: express.Request, res: express.Response) => {
     try {
@@ -77,5 +99,5 @@ export class UserController {
     } catch (e) {
       res.status(200).json(Result.error(e.message));
     }
-  }
+  };
 }

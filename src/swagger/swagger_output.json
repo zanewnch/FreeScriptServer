@@ -322,6 +322,10 @@
         }
       },
       "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user",
         "description": "",
         "responses": {
           "default": {

@@ -156,7 +156,7 @@ export default (router: express.Router) => {
       let result: object[] = await articleRepo.getSpecificTagsArticles(
         tag["tags"]
       );
-      console.log(result);
+      
       res.status(200).json(Result.successWithData(result));
     }
   );
@@ -201,7 +201,7 @@ export default (router: express.Router) => {
 
     */
     const result: object[] = await articleRepo.getStaffPicks();
-    console.log(result);
+    
     res.status(200).json(Result.successWithData(result));
   });
 
@@ -264,21 +264,21 @@ export default (router: express.Router) => {
     // which mean request with query string
     if (Object.keys(req.query).length !== 0) {
       const result: object = req.query;
-      console.log(result);
+      
       res.status(200).json(Result.successWithData(result));
     }
 
     // which mean request with json content
     if (Object.keys(req.body).length !== 0) {
       const result: object = req.body;
-      console.log(result);
+      
       res.status(200).json(Result.successWithData(result));
     }
 
     // which mean request with path variable
     if (Object.keys(req.params).length !== 0) {
       const result: object = req.params;
-      console.log(result);
+      
       res.status(200).json(Result.successWithData(result));
     }
   });
@@ -286,14 +286,14 @@ export default (router: express.Router) => {
     // which mean request with query string
     if (Object.keys(req.query).length !== 0) {
       const result: object = req.query;
-      console.log(result);
+      
       res.status(200).json(Result.successWithData(result));
     }
 
     // which mean request with json content
     if (Object.keys(req.body).length !== 0) {
       const result: object = req.body;
-      console.log(result);
+      
       res.status(200).json(Result.successWithData(result));
     }
 
