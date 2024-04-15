@@ -36,41 +36,34 @@ app.use(
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
-// cors config for local server 
-// app.use(
-//   cors({
-//     origin: "http://58.115.128.46:5173", // Another frontend's URL
-//     credentials: true,
-//   })
-// );
 
-// cors config for all origins
-// app.use(
-//   cors({
-//     origin: "*", // Allow requests from any origin
-//     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-//   })
-// );
 
 // 设置 Express 使用 EJS 模板引擎
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+//cors comfig
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  // 其他的 CORS 相關設置
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // 或者你的前端應用的 URL
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+})
 
 
 // swagger related cofig
 // 這裡的path就是swagger ui path
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+// normal setting
 app.use(compression());
 app.use(cookieParser());
-// app.use(bodyParser.json());
-// app.use(express.json());
-// This is a built-in middleware function in Express that does the same job as bodyParser.json().
 app.use(express.json());
 app.use("/", router());
 
 
-
+// mongoose config
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGO_URL);
 mongoose.connection.on("connected", () => {
