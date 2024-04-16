@@ -4,6 +4,7 @@ import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 import { UserRepo } from "../model/UserRepo";
 import { UserController } from "../controller/UserController";
 import { Result } from "../utils/Result";
+import { JWT } from '../utils/JWT';
 
 // @ts-ignore
 export default (router: express.Router) => {
@@ -12,7 +13,7 @@ export default (router: express.Router) => {
   const checkAuthCookie = new CheckAuthCookie();
 
   router.post(
-    "/api/user",
+    "/api/user/register",
     checkAuthCookie.checkAuthCookie,
     (req: express.Request, res: express.Response) => {
       userController.insertUser(req, res);
@@ -99,4 +100,33 @@ export default (router: express.Router) => {
     */
     userController.updateUser(req, res);
   });
+
+  router.post('/api/user/set-cookie', (req, res) => {
+    let user = req.body;
+    if(user['username']){
+      let token = JWT.createToken(user['username']);
+
+      // 然而，由於你已經將 httpOnly 選項設置為 true，這個 cookie 不能被 JavaScript 存取，這是一種安全措施，用來防止跨站腳本攻擊（XSS）。
+      res.cookie('login-token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'
+      }).status(200).send(Result.successWithData(token));
+      
+    }else if(user['displayName']){
+      let token = JWT.createToken(user['displayName']);
+
+      res.cookie('login-token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'
+      }).status(200).send(Result.successWithData(token));
+    }
+    
+    
+
+    
+  });
+
+  
 };

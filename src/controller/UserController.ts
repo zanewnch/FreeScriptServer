@@ -22,6 +22,7 @@ export class UserController {
       */
 
       const body: User = req.body;
+      
 
       if (body["password"]) {
         // which mean is local register
