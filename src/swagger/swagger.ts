@@ -1,4 +1,6 @@
 // the swagger autogen config file
+// the swagger api ui url is:
+// http://localhost:8080/api-doc/#/Article/post_api_article
 
 import swaggerAutogen from "swagger-autogen";
 import { ArticleDef } from "./ArticleDef";
