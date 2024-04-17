@@ -10,7 +10,9 @@ export class JWT {
     // return jwt.sign(payload, process.env.JWT_SECRET, {
     // expiresIn: "240h",
     // });
-    return jwt.sign(payload, process.env.JWT_SECRET);
+    return jwt.sign(payload, process.env.JWT_SECRET,{
+      expiresIn: "240h"
+    });
   };
 
   /* 
