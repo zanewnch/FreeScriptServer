@@ -39,7 +39,7 @@ export default (router: express.Router) => {
 
     #swagger.responses[200] = {
       description: 'Success',
-      schema: { $ref: "#/definitions/success" }
+      schema: { $ref: "#/definitions/UserLocalSignIn" }
     }
 
     #swagger.responses[400] = {
@@ -127,6 +127,29 @@ export default (router: express.Router) => {
 
     
   });
+  router.get('/api/user/verify-login', (req, res) => {
+    let token = req.cookies['login-token'];
+    console.log(token);
+    if(token){
+      let result = JWT.verifyToken(token)
+      if(result){
+        res.status(200).send(Result.successWithData(result));
+    }else{
+      res.status(200).send(Result.error('No token'));
+    }
+}});
 
+router.get('/api/user/decode-login', (req, res) => {
+  let token = req.cookies['login-token'];
+  console.log(token);
+  if(token){
+    let result = JWT.decodeToken(token);
+    console.log(result);
+    if(result){
+      res.status(200).send(Result.successWithData(result));
+  }else{
+    res.status(200).send(Result.error('No token'));
+  }
+}});
   
 };
