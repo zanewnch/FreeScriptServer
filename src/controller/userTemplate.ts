@@ -4,7 +4,7 @@ import {
   deleteUserById,
   getUsers,
   getUserById,
-} from "../model/OriginalTemplateWithMongoDB";
+} from "../deprecated/OriginalTemplateWithMongoDB";
 
 export const getAllUsers = async (
   req: express.Request,

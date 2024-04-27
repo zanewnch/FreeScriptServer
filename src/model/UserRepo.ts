@@ -1,5 +1,12 @@
 import mongoose, { Model, Schema } from "mongoose";
-import { UserDocument, User } from "interface/UserInterface";
+import {
+  LocalUser,
+  LocalUserDocument,
+  GoogleUser,
+  GoogleUserDocument,
+  User,
+  UserDocument,
+} from "interface/UserInterface";
 
 const userSchema: Schema = new Schema({
   JWTToken: { type: String, required: false },
@@ -39,21 +46,25 @@ export class UserRepo {
     }
   };
 
-  public insertUser = async (user: User): Promise<UserDocument> => {
+  public insertUser = async (
+    user: LocalUser | GoogleUser
+  ): Promise<UserDocument & { _id: mongoose.Types.ObjectId }> => {
     try {
       /* 既使傳的data沒有 createTime and updateTime, 還是可以成功insert
       前端傳什麼param, 就insert什麼param
       */
-      const newUser = new this.model(user);
-      return newUser.save();
+      const newUser: UserDocument & {
+        _id: mongoose.Types.ObjectId;
+      } = new this.model(user);
+      return await newUser.save();
     } catch (e) {
       console.log(e);
     }
   };
 
   public getByLocalAccount = async (
-    user: User
-  ): Promise<UserDocument[] | [] | void> => {
+    user: LocalUser
+  ): Promise<LocalUserDocument | null> => {
     try {
       return await this.model.findOne({
         username: user["username"],
@@ -65,8 +76,8 @@ export class UserRepo {
   };
 
   public getGoogleAccount = async (
-    user: User
-  ): Promise<UserDocument[] | [] | void> => {
+    user: GoogleUser
+  ): Promise<GoogleUserDocument | null> => {
     try {
       return await this.model.findOne({
         displayName: user["displayName"],
@@ -77,7 +88,7 @@ export class UserRepo {
     }
   };
 
-  public updateUser = async (user: User): Promise<void> => {
+  public updateUser = async (user: UserDocument): Promise<void> => {
     try {
       const result = await this.model.updateOne(
         { username: user["username"] },

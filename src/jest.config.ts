@@ -8,4 +8,5 @@ module.exports = {
   resetMocks: true,
   restoreMocks: true,
   clearMocks:true,
+  coverageReporters: ["html"],
 };

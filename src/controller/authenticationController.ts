@@ -3,7 +3,7 @@ import express from "express";
 import {
   getUserByEmail,
   createUser,
-} from "../model/OriginalTemplateWithMongoDB";
+} from "../deprecated/OriginalTemplateWithMongoDB";
 import { authentication, random } from "../utils";
 
 export const login = async (req: express.Request, res: express.Response) => {

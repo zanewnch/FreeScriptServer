@@ -2,7 +2,6 @@ import express from "express";
 import { Result } from "../utils/Result";
 import { ArticleController } from "../controller/ArticleController";
 import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
-// !supertest library for testing api
 import { ArticleRepo } from "../model/ArticleRepo";
 
 export default (router: express.Router) => {
