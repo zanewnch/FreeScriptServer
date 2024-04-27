@@ -1,7 +1,7 @@
 import express from "express";
 import { merge, get } from "lodash";
 
-import { getUserBySessionToken } from "../deprecated/OriginalTemplateWithMongoDB";
+import { getUserBySessionToken } from "./OriginalTemplateWithMongoDB";
 
 export const isAuthenticated = async (
   req: express.Request,
