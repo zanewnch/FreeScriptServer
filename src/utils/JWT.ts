@@ -22,14 +22,14 @@ export class JWT {
 
 
     */
-  public static verifyToken = (token: string) => {
+  public static verifyToken = (token: string):boolean => {
     if (jwt.verify(token, process.env.JWT_SECRET)) return true;
   };
 
   /* 
     jwt.decode(token, options): 此方法只解碼 token，並返回解碼的 payload。它不驗證 token 的簽名。這意味著，即使 token 是無效的，只要它有正確的格式，此方法仍然可以解碼它。因此，你應該只在你確信 token 是有效的情況下使用此方法。
   */
-  public static decodeToken = (token: string) => {
+  public static decodeToken = (token: string):string | jwt.JwtPayload |null => {
     return jwt.decode(token);
   };
 

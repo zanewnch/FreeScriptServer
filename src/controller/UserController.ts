@@ -11,6 +11,7 @@ import {
   UserDocument,
 } from "interface/UserInterface";
 import { JWT } from "../utils/JWT";
+import { JwtPayload } from "jsonwebtoken";
 
 export class UserController {
   private userRepo: UserRepo;
@@ -18,11 +19,11 @@ export class UserController {
     this.userRepo = new UserRepo();
   }
 
-  // !要做update-time and register time 的處理
+  
   public insertLocalUser = async (
     req: express.Request,
     res: express.Response
-  ) => {
+  ): Promise<void> => {
     try {
       const body: LocalUser = req.body;
 
@@ -36,13 +37,14 @@ export class UserController {
       res.status(200).json(Result.success());
     } catch (e) {
       console.log(e.message);
+      res.status(500).json(Result.error("Internal Server Error"));
     }
   };
 
   public insertGoogleUser = async (
     req: express.Request,
     res: express.Response
-  ) => {
+  ): Promise<void> => {
     try {
       const body: GoogleUser = req.body;
 
@@ -57,41 +59,52 @@ export class UserController {
       this.userRepo.insertUser(body);
       res.status(200).json(Result.success());
     } catch (e) {
-      console.log(e.message);
+      console.error(e.message);
+      res.status(500).json(Result.error("Internal Server Error"));
     }
   };
 
-  public decodeLogin = (req: express.Request, res: express.Response) => {
-    let token = req.cookies["login-token"];
-    console.log(token);
-    if (token) {
-      let result = JWT.decodeToken(token);
-      console.log(result);
-      if (result) {
-        res.status(200).json(Result.successWithData(result));
+  public decodeLogin = (req: express.Request, res: express.Response): void => {
+    try {
+      let token: string = req.cookies["login-token"];
+
+      if (token) {
+        let result: string | JwtPayload | null = JWT.decodeToken(token);
+
+        if (result) {
+          res.status(200).json(Result.successWithData(result));
+        } else {
+          res.status(400).json(Result.error("No token"));
+        }
       } else {
-        res.status(200).json(Result.error("No token"));
+        // Add an else clause to handle the case where there is no token
+        res.status(400).json(Result.error("No token provided"));
       }
-    } else {
-      // Add an else clause to handle the case where there is no token
-      res.status(400).json(Result.error("No token provided"));
+    } catch (e) {
+      console.error(e.message);
+      res.status(500).json(Result.error("Internal Server Error"));
     }
   };
 
-  public verifyLogin = (req: express.Request, res: express.Response) => {
-    let token = req.cookies["login-token"];
-    console.log(token);
-    if (token) {
-      let result = JWT.verifyToken(token);
-      if (result) {
-        res.status(200).send(Result.successWithData(result));
-      } else {
-        res.status(200).send(Result.error("No token"));
+  public verifyLogin = (req: express.Request, res: express.Response): void => {
+    try {
+      let token = req.cookies["login-token"];
+
+      if (token) {
+        let result = JWT.verifyToken(token);
+        if (result) {
+          res.status(200).send(Result.successWithData(result));
+        } else {
+          res.status(400).send(Result.error("No token"));
+        }
       }
+    } catch (e) {
+      console.error(e.message);
+      res.status(500).json(Result.error("Internal Server Error"));
     }
   };
 
-  public setCookie = (req: express.Request, res: express.Response) => {
+  public setCookie = (req: express.Request, res: express.Response): void => {
     let user = req.body;
     if (user["username"]) {
       let token = JWT.createToken(user["username"]);
@@ -119,38 +132,46 @@ export class UserController {
     }
   };
 
-  public localSignIn = async (req: express.Request, res: express.Response) => {
+  public localSignIn = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
     try {
-      const body: LocalUserDocument = req.body;
-      const result = await this.userRepo.getByLocalAccount(body);
+      const body: LocalUser = req.body;
+      const result: LocalUserDocument | null =
+        await this.userRepo.getByLocalAccount(body);
 
       // if the user is not found
       if (!result) {
-        res.status(200).json(Result.error("User not found"));
+        res.status(404).json(Result.error("User not found"));
         return;
       } else {
         res.status(200).json(Result.successWithData(result));
       }
     } catch (e) {
-      res.status(400).json(Result.error(e.message));
+      console.error(e.message);
+      res.status(500).json(Result.error("Internal Server Error"));
+      
     }
   };
 
-  public googleSignIn = async (req: express.Request, res: express.Response) => {
+  public googleSignIn = async (req: express.Request, res: express.Response):Promise<void> => {
     try {
-      const body: GoogleUserDocument = req.body;
-      const result = await this.userRepo.getGoogleAccount(body);
+      const body: GoogleUser = req.body;
+      const result: GoogleUserDocument | null =
+        await this.userRepo.getGoogleAccount(body);
 
       // if the user is not found
       if (!result) {
-        res.status(200).json(Result.error("User not found"));
-        console.log("User not found");
+        res.status(404).json(Result.error("User not found"));
+        
         return;
       } else {
         res.status(200).json(Result.successWithData(result));
       }
     } catch (e) {
-      res.status(200).json(Result.error(e.message));
+      console.error(e.message);
+      res.status(500).json(Result.error("Internal Server Error"));
     }
   };
 

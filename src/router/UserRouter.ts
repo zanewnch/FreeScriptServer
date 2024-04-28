@@ -16,12 +16,17 @@ export default (router: express.Router) => {
 
   router.post(
     "/api/user/register-local",
-    checkAuthCookie.checkAuthCookie,autofill.autoFill,
+    checkAuthCookie.checkAuthCookie,
+    autofill.autoFill,
     userController.insertLocalUser
-    
   );
 
-  router.post("/api/user/register-google",checkAuthCookie.checkAuthCookie,autofill.autoFill,userController.insertGoogleUser);
+  router.post(
+    "/api/user/register-google",
+    checkAuthCookie.checkAuthCookie,
+    autofill.autoFill,
+    userController.insertGoogleUser
+  );
 
   router.post(
     "/api/user/local-signIn",
@@ -37,10 +42,7 @@ export default (router: express.Router) => {
     userController.googleSignIn
   );
 
-  router.post(
-    "/api/user/local-jwt",
-    userController.generateLocalJwtToken
-  );
+  router.post("/api/user/local-jwt", userController.generateLocalJwtToken);
 
   router.put(
     "/api/user",
@@ -48,13 +50,24 @@ export default (router: express.Router) => {
     userController.updateUser
   );
 
-  router.post("/api/user/set-cookie",checkAuthCookie.checkAuthCookie, userController.setCookie);
-  router.get("/api/user/verify-login",checkAuthCookie.checkAuthCookie, userController.verifyLogin);
+  router.post(
+    "/api/user/set-cookie",
+    checkAuthCookie.checkAuthCookie,
+    userController.setCookie
+  );
+  router.get(
+    "/api/user/verify-login",
+    checkAuthCookie.checkAuthCookie,
+    userController.verifyLogin
+  );
 
-  router.get("/api/user/decode-login",checkAuthCookie.checkAuthCookie, userController.decodeLogin);
+  router.get(
+    "/api/user/decode-login",
+    checkAuthCookie.checkAuthCookie,
+    userController.decodeLogin
+  );
 
-
-  router.get('/api/test/test',(req,res)=>{
-    res.status(200).send("123")
-  })
+  router.get("/api/test/test", (req, res) => {
+    res.status(200).send("123");
+  });
 };
