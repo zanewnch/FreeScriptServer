@@ -1,4 +1,5 @@
 import mongoose, { Model, Schema } from "mongoose";
+import { UpdateResult } from "mongodb";
 import {
   LocalUser,
   LocalUserDocument,
@@ -88,21 +89,22 @@ export class UserRepo {
     }
   };
 
-  public updateUser = async (user: UserDocument): Promise<void> => {
+  public updateUser = async (user: User): Promise<UpdateResult> => {
     try {
-      const result = await this.model.updateOne(
+      const result: UpdateResult = await this.model.updateOne(
         { username: user["username"] },
         { password: user["password"] }
       );
+
       if (result["matchedCount"] === 0) {
         console.log("No user found");
       } else {
         console.log("update");
       }
 
-      console.log(result);
+      return result;
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
     }
   };
 }

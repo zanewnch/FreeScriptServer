@@ -67,7 +67,5 @@ export default (router: express.Router) => {
     userController.decodeLogin
   );
 
-  router.get("/api/test/test", (req, res) => {
-    res.status(200).send("123");
-  });
+ 
 };

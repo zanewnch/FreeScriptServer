@@ -17,6 +17,9 @@ export class CheckAuthCookie {
 
       // Allow requests to "/login" and "/register" to proceed without requiring authToken
 
+      // for tesing, just directly
+      return next();
+
       if (
         req.originalUrl.includes("/local-signIn") ||
         req.originalUrl.includes("/register") ||

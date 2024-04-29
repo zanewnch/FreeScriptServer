@@ -1,18 +1,24 @@
 import jwt from "jsonwebtoken";
 
 export class JWT {
-  public static createToken = (username: string) => {
-    const payload = {
-      sub: "1234567890",
-      name: username,
-      iat: 1516239022,
-    };
-    // return jwt.sign(payload, process.env.JWT_SECRET, {
-    // expiresIn: "240h",
-    // });
-    return jwt.sign(payload, process.env.JWT_SECRET,{
-      expiresIn: "240h"
-    });
+  public static createToken = (username: string):string => {
+    try{
+      const payload = {
+        sub: "1234567890",
+        name: username,
+        iat: 1516239022,
+      };
+      // return jwt.sign(payload, process.env.JWT_SECRET, {
+      // expiresIn: "240h",
+      // });
+      return jwt.sign(payload, process.env.JWT_SECRET,{
+        expiresIn: "240h"
+      });
+    }catch(e){
+      console.error(e);
+    }
+    
+    
   };
 
   /* 

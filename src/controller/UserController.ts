@@ -1,6 +1,6 @@
 import express from "express";
 import { Result } from "../utils/Result";
-
+import { UpdateResult } from "mongodb";
 import { UserRepo } from "../model/UserRepo";
 import {
   LocalUser,
@@ -19,7 +19,6 @@ export class UserController {
     this.userRepo = new UserRepo();
   }
 
-  
   public insertLocalUser = async (
     req: express.Request,
     res: express.Response
@@ -36,7 +35,7 @@ export class UserController {
       this.userRepo.insertUser(body);
       res.status(200).json(Result.success());
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       res.status(500).json(Result.error("Internal Server Error"));
     }
   };
@@ -59,7 +58,7 @@ export class UserController {
       this.userRepo.insertUser(body);
       res.status(200).json(Result.success());
     } catch (e) {
-      console.error(e.message);
+      console.error(e);
       res.status(500).json(Result.error("Internal Server Error"));
     }
   };
@@ -74,40 +73,42 @@ export class UserController {
         if (result) {
           res.status(200).json(Result.successWithData(result));
         } else {
-          res.status(400).json(Result.error("No token"));
+          res.status(400).json(Result.error("The token is invalid"));
         }
       } else {
         // Add an else clause to handle the case where there is no token
         res.status(400).json(Result.error("No token provided"));
       }
     } catch (e) {
-      console.error(e.message);
+      console.error(e);
       res.status(500).json(Result.error("Internal Server Error"));
     }
   };
 
   public verifyLogin = (req: express.Request, res: express.Response): void => {
     try {
-      let token = req.cookies["login-token"];
+      const token:string = req.cookies["login-token"];
 
       if (token) {
-        let result = JWT.verifyToken(token);
+        let result:boolean = JWT.verifyToken(token);
         if (result) {
           res.status(200).send(Result.successWithData(result));
         } else {
           res.status(400).send(Result.error("No token"));
         }
+      }else{
+        res.status(400).send(Result.error("No token provided"));
       }
     } catch (e) {
-      console.error(e.message);
-      res.status(500).json(Result.error("Internal Server Error"));
+      console.error(e);
+      res.status(500).json(Result.error("The request without token provided"));
     }
   };
 
   public setCookie = (req: express.Request, res: express.Response): void => {
-    let user = req.body;
+    let user: User = req.body;
     if (user["username"]) {
-      let token = JWT.createToken(user["username"]);
+      let token: string = JWT.createToken(user["username"]);
 
       // 然而，由於你已經將 httpOnly 選項設置為 true，這個 cookie 不能被 JavaScript 存取，這是一種安全措施，用來防止跨站腳本攻擊（XSS）。
       res
@@ -119,7 +120,7 @@ export class UserController {
         .status(200)
         .send(Result.successWithData(token));
     } else if (user["displayName"]) {
-      let token = JWT.createToken(user["displayName"]);
+      let token:string = JWT.createToken(user["displayName"]);
 
       res
         .cookie("login-token", token, {
@@ -129,6 +130,8 @@ export class UserController {
         })
         .status(200)
         .send(Result.successWithData(token));
+    }else{
+      res.status(400).send(Result.error("No token"));
     }
   };
 
@@ -149,13 +152,15 @@ export class UserController {
         res.status(200).json(Result.successWithData(result));
       }
     } catch (e) {
-      console.error(e.message);
+      console.error(e);
       res.status(500).json(Result.error("Internal Server Error"));
-      
     }
   };
 
-  public googleSignIn = async (req: express.Request, res: express.Response):Promise<void> => {
+  public googleSignIn = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
     try {
       const body: GoogleUser = req.body;
       const result: GoogleUserDocument | null =
@@ -164,13 +169,13 @@ export class UserController {
       // if the user is not found
       if (!result) {
         res.status(404).json(Result.error("User not found"));
-        
+
         return;
       } else {
         res.status(200).json(Result.successWithData(result));
       }
     } catch (e) {
-      console.error(e.message);
+      console.error(e);
       res.status(500).json(Result.error("Internal Server Error"));
     }
   };
@@ -178,21 +183,31 @@ export class UserController {
   public generateLocalJwtToken = async (
     req: express.Request,
     res: express.Response
-  ) => {
-    const user = req.body;
+  ): Promise<void> => {
+    try {
+      const user: LocalUser = req.body;
 
-    const jwtToken = JWT.createToken(user["username"]);
+      const jwtToken: string = JWT.createToken(user["username"]);
 
-    res.status(200).json(Result.successWithData(jwtToken));
+      res.status(200).json(Result.successWithData(jwtToken));
+    } catch (e) {
+      console.error(e);
+      res.status(500).json(Result.error("Internal Server Error"));
+    }
   };
 
-  public updateUser = async (req: express.Request, res: express.Response) => {
+  public updateUser = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
     try {
-      const body: UserDocument = req.body;
-      this.userRepo.updateUser(body);
-      res.status(200).json(Result.success());
+      const body: User = req.body;
+      const result: UpdateResult = await this.userRepo.updateUser(body);
+
+      res.status(200).json(Result.successWithData(result));
     } catch (e) {
-      res.status(200).json(Result.error(e.message));
+      console.error(e);
+      res.status(500).json(Result.error("Internal Server Error"));
     }
   };
 }
