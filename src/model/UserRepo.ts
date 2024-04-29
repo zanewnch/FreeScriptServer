@@ -89,20 +89,41 @@ export class UserRepo {
     }
   };
 
-  public updateUser = async (user: User): Promise<UpdateResult> => {
+  public updateUser = async (user: User): Promise<UserDocument & {
+    _id: mongoose.Types.ObjectId;
+  }> => {
     try {
-      const result: UpdateResult = await this.model.updateOne(
-        { username: user["username"] },
-        { password: user["password"] }
-      );
+      // Find the user
+      const foundUser = await this.model.findOne({ username: user.username });
 
-      if (result["matchedCount"] === 0) {
-        console.log("No user found");
-      } else {
-        console.log("update");
+      if (!foundUser) {
+        throw new Error("User not found");
       }
 
+      // Update the user
+      Object.keys(user).forEach((key) => {
+        // @ts-ignore
+        foundUser[key as any] = user[key];
+      });
+
+      const result: UserDocument & {
+        _id: mongoose.Types.ObjectId;
+      } = await foundUser.save();
+
       return result;
+
+      // const result: UpdateResult = await this.model.updateOne(
+      //   { username: user["username"] },
+      //   { password: user["password"] }
+      // );
+
+      // if (result["matchedCount"] === 0) {
+      //   console.log("No user found");
+      // } else {
+      //   console.log("update");
+      // }
+
+      // return result;
     } catch (e) {
       console.log(e);
     }
