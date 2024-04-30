@@ -94,7 +94,9 @@ export class UserRepo {
   }> => {
     try {
       // Find the user
-      const foundUser = await this.model.findOne({ username: user.username });
+      const foundUser: UserDocument & {
+        _id: mongoose.Types.ObjectId;
+    } = await this.model.findOne({ username: user.username });
 
       if (!foundUser) {
         throw new Error("User not found");
@@ -102,8 +104,8 @@ export class UserRepo {
 
       // Update the user
       Object.keys(user).forEach((key) => {
-        // @ts-ignore
-        foundUser[key as any] = user[key];
+        
+        foundUser[key] = user[key];
       });
 
       const result: UserDocument & {

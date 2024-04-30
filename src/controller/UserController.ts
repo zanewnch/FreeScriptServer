@@ -12,6 +12,7 @@ import {
 } from "interface/UserInterface";
 import { JWT } from "../utils/JWT";
 import { JwtPayload } from "jsonwebtoken";
+import mongoose from "mongoose";
 
 export class UserController {
   private userRepo: UserRepo;
@@ -202,7 +203,9 @@ export class UserController {
   ): Promise<void> => {
     try {
       const body: User = req.body;
-      const result: UpdateResult = await this.userRepo.updateUser(body);
+      const result: UserDocument & {
+        _id: mongoose.Types.ObjectId;
+    } = await this.userRepo.updateUser(body);
 
       res.status(200).json(Result.successWithData(result));
     } catch (e) {
