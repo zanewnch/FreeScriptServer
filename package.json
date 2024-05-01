@@ -39,6 +39,7 @@
     "@types/lodash": "^4.14.191",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^18.13.0",
+    "@types/qs": "^6.9.15",
     "@types/socket.io": "^3.0.2",
     "@types/supertest": "^6.0.2",
     "@types/swagger-ui-express": "^4.1.6",
@@ -78,7 +79,9 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": ["<rootDir>/src/**/*.test.ts"]
+    "testMatch": [
+      "<rootDir>/src/**/*.test.ts"
+    ]
   },
   "comments": {
     "theScriptBug": "it can not find .swcrc file in windows system, so in windows system, just use 'npm run start' but not 'npm run dev'"

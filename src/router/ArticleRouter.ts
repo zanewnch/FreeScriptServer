@@ -18,7 +18,7 @@ export default (router: express.Router) => {
   router.get(
     "/api/article",
     checkAuthCookie.checkAuthCookie,
-    articleController.get
+    articleController.getPaginationArticles
   );
 
   router.get(
@@ -35,7 +35,7 @@ export default (router: express.Router) => {
   );
 
   router.get(
-    "/api/search",
+    "/api/article/search",
     checkAuthCookie.checkAuthCookie,
     articleController.search
   );
@@ -50,45 +50,32 @@ export default (router: express.Router) => {
   router.post(
     "/api/article",
     checkAuthCookie.checkAuthCookie,
-    articleController.create
+    articleController.insertData
   );
 
   router.get(
     "/api/article/specific-tags-articles",
     checkAuthCookie.checkAuthCookie,
-    async (req, res) => {
-      let tag: any = req.query;
-      let result: object[] = await articleRepo.getSpecificTagsArticles(
-        tag["tags"]
-      );
-
-      res.status(200).json(Result.successWithData(result));
-    }
+    articleController.getSpecificTagsArticles
   );
 
   router.get(
     "/api/article/tags",
     checkAuthCookie.checkAuthCookie,
-    async (req, res) => {
-      let result = await articleRepo.getTags();
-      res.status(200).json(Result.successWithData(result));
-    }
+    articleController.getTags
   );
 
   // publish
   router.post(
     "/api/article/publish",
     checkAuthCookie.checkAuthCookie,
-    (req, res) => {
-      articleController.publish(req, res);
-    }
+    articleController.publish
   );
 
-  router.get("/api/article/staff-picks", async (req, res) => {
-    const result: object[] = await articleRepo.getStaffPicks();
-
-    res.status(200).json(Result.successWithData(result));
-  });
+  router.get("/api/article/staff-picks", 
+    checkAuthCookie.checkAuthCookie,
+    articleController.getStaffPicks
+  );
 
   // test for knowing frontend send data
   router.get("/api/test", checkAuthCookie.checkAuthCookie, (req, res) => {
@@ -113,7 +100,7 @@ export default (router: express.Router) => {
       res.status(200).json(Result.successWithData(result));
     }
   });
-  router.post("/api/test", checkAuthCookie.checkAuthCookie, (req, res) => {
+  router.post("/api/test/test", checkAuthCookie.checkAuthCookie, (req, res) => {
     // which mean request with query string
     if (Object.keys(req.query).length !== 0) {
       const result: object = req.query;
