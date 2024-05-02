@@ -8,10 +8,10 @@ FreeScript
 This is my side project of web app, and its main function and inspiration are from medium website.
 
 3.Feature:
-*vue
-*express
-*mongoDB
-*mySQL
+* vue
+* express
+* mongoDB
+* mySQL
 
 
 5. Installation:
