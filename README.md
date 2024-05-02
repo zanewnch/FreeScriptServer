@@ -18,10 +18,10 @@ This is my side project of web app, and its main function and inspiration are fr
 Clone or download the project, then run npm install and npm run dev
 
 6. Usage:
-1. This project has a home page, and you need to login at the first then can see the article list.
-2. if you do not have the account, you should create an account at the first, you can do this through two way, one is using username and password for local register, or you can choose using google api to create the account.
-3. The home page show all the article list, click the list item can jump to the article page the see the completed article.
-4. The separate artilce page would show the author, title, content and user comment.
+* This project has a home page, and you need to login at the first then can see the article list.
+* if you do not have the account, you should create an account at the first, you can do this through two way, one is using username and password for local register, or you can choose using google api to create the account.
+* The home page show all the article list, click the list item can jump to the article page the see the completed article.
+* The separate artilce page would show the author, title, content and user comment.
 
 6. Contact me:
 by g-mail: zanewnch@gmail.com
