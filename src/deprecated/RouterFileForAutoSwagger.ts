@@ -16,7 +16,7 @@ export default (router: express.Router) => {
     "/api/user/register",
     checkAuthCookie.checkAuthCookie,
     (req: express.Request, res: express.Response) => {
-      userController.insertUser(req, res);
+      userController.insertLocalUser(req, res);
     }
   );
 

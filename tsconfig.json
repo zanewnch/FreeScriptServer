@@ -10,8 +10,9 @@
       "noImplicitAny": true,
       "resolveJsonModule": true,
       "sourceMap": true,
+      "target": "es6"
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "webpack.config.js"],
     "exclude": ["node_modules"],
     
   }

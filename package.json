@@ -9,6 +9,7 @@
     "start": "nodemon",
     "test": "jest --watchAll --verbose",
     "devOldEdition": "nodemon",
+    "build": "webpack",
     "swagger": "ts-node ./src/swagger/swagger.ts",
     "devswc": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
     "watch-compile": "swc src -w --out-dir dist",
@@ -53,8 +54,12 @@
     "superagent": "^9.0.1",
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.2",
+    "ts-loader": "^9.5.1",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
     "body-parser": "^1.20.1",
