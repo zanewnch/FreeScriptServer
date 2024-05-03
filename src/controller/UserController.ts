@@ -20,6 +20,14 @@ export class UserController {
     this.userRepo = new UserRepo();
   }
 
+  public deleteCookie = async(
+    req:express.Request,
+    res:express.Response
+  ):Promise<void>=>{
+    res.clearCookie("login-token");
+    res.status(200).json(Result.successWithData("Successful delete the login-token cookie."))
+  }
+
   public insertLocalUser = async (
     req: express.Request,
     res: express.Response
@@ -66,7 +74,7 @@ export class UserController {
 
   public decodeLogin = (req: express.Request, res: express.Response): void => {
     try {
-      let token: string = req.cookies["login-token"];
+      let token: string | undefined = req.cookies["login-token"];
 
       if (token) {
         let result: string | JwtPayload | null = JWT.decodeToken(token);
@@ -88,7 +96,7 @@ export class UserController {
 
   public verifyLogin = (req: express.Request, res: express.Response): void => {
     try {
-      const token:string = req.cookies["login-token"];
+      const token:string | undefined = req.cookies["login-token"];
 
       if (token) {
         let result:boolean = JWT.verifyToken(token);

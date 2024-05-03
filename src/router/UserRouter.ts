@@ -14,6 +14,8 @@ export default (router: express.Router) => {
   const checkAuthCookie = new CheckAuthCookie();
   const autofill = new AutoFill();
 
+  router.get("/api/user/delete-cookie", userController.deleteCookie);
+
   router.post(
     "/api/user/register-local",
     checkAuthCookie.checkAuthCookie,
@@ -55,17 +57,7 @@ export default (router: express.Router) => {
     checkAuthCookie.checkAuthCookie,
     userController.setCookie
   );
-  router.get(
-    "/api/user/verify-login",
-    checkAuthCookie.checkAuthCookie,
-    userController.verifyLogin
-  );
+  router.get("/api/user/verify-login", userController.verifyLogin);
 
-  router.get(
-    "/api/user/decode-login",
-    checkAuthCookie.checkAuthCookie,
-    userController.decodeLogin
-  );
-
- 
+  router.get("/api/user/decode-login", userController.decodeLogin);
 };

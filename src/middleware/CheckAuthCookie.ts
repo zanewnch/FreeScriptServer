@@ -18,7 +18,7 @@ export class CheckAuthCookie {
       // Allow requests to "/login" and "/register" to proceed without requiring authToken
 
       // for tesing, just directly
-      return next();
+      // return next();
 
       if (
         req.originalUrl.includes("/local-signIn") ||
@@ -26,12 +26,15 @@ export class CheckAuthCookie {
         req.originalUrl.includes("/google-signIn")
       ) {
         return next();
+      }else if(req.cookies["login-token"]){
+        // detect cookie for login
+        return next();
+      }else{
+        res.status(401).json(Result.error("You have not provide the login-token cookie value."))
       }
 
-      // detect cookie for login
-      if (req.cookies["login-token"]) {
-        return next();
-      }
+      
+      
 
       /* 
       這邊是舊方法, 是檢查 request header, 但因為不是cookie, 如果開新分頁或重新整理, request header 會消失, 所以改用cookie
