@@ -20,21 +20,24 @@ export class CheckAuthCookie {
       // for tesing, just directly
       // return next();
 
+      const url = req.originalUrl.toLowerCase();
+
       if (
-        req.originalUrl.includes("/local-signIn") ||
-        req.originalUrl.includes("/register") ||
-        req.originalUrl.includes("/google-signIn")
+        url.includes("/local-signin") ||
+        url.includes("/register") ||
+        url.includes("/google-signin")
       ) {
         return next();
-      }else if(req.cookies["login-token"]){
+      } else if (req.cookies["login-token"]) {
         // detect cookie for login
         return next();
-      }else{
-        res.status(401).json(Result.error("You have not provide the login-token cookie value."))
+      } else {
+        res
+          .status(401)
+          .json(
+            Result.error("You have not provide the login-token cookie value.")
+          );
       }
-
-      
-      
 
       /* 
       這邊是舊方法, 是檢查 request header, 但因為不是cookie, 如果開新分頁或重新整理, request header 會消失, 所以改用cookie
