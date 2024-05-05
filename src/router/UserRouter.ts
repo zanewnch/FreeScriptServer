@@ -61,7 +61,7 @@ export default (router: express.Router) => {
 
   router.get("/api/user/decode-login", userController.decodeLogin);
 
-  router.get('/api/user/test/test',(req,res)=>{
-    res.status(200).json(Result.success())
-  })
+  router.get("/api/user/test/test", (req, res) => {
+    res.status(200).json(Result.success());
+  });
 };
