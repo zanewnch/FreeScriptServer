@@ -1,8 +1,8 @@
 import express from "express";
 import { SupermarketSaleController } from "../controller/SupermarketSaleController";
 import { Knex } from "../model/Knex";
-import { get } from "lodash";
 import { Result } from "../utils/Result";
+import { CheckAuthCookie } from "../middleware/CheckAuthCookie";
 
 const router = express.Router();
 /*
@@ -12,15 +12,16 @@ const router = express.Router();
 export default (router: express.Router) => {
   const supermarketSaleController = new SupermarketSaleController();
   const knex = new Knex();
+  const checkAuthCookie = new CheckAuthCookie();
 
-  router.get("/api/supermarket", supermarketSaleController.get);
-  router.post("/api/supermarket", supermarketSaleController.create);
-  router.put("/api/supermarket", supermarketSaleController.update);
-  router.delete("/api/supermarket/:id", supermarketSaleController.delete);
+  router.get("/api/supermarket",checkAuthCookie.checkAuthCookie, supermarketSaleController.get);
+  router.post("/api/supermarket",checkAuthCookie.checkAuthCookie, supermarketSaleController.create);
+  router.put("/api/supermarket",checkAuthCookie.checkAuthCookie, supermarketSaleController.update);
+  router.delete("/api/supermarket/:id",checkAuthCookie.checkAuthCookie, supermarketSaleController.delete);
 
   // getBranchList
   router.get(
-    "/api/supermarket/branchList",
+    "/api/supermarket/branchList",checkAuthCookie.checkAuthCookie,
     async (req: express.Request, res: express.Response) => {
       const result = await knex.db("supermarket").distinct("branch").select();
 
@@ -29,7 +30,7 @@ export default (router: express.Router) => {
   );
   // getCityList
   router.get(
-    "/api/supermarket/cityList",
+    "/api/supermarket/cityList",checkAuthCookie.checkAuthCookie,
     async (req: express.Request, res: express.Response) => {
       const result = await knex.db("supermarket").distinct("city").select();
 
@@ -38,7 +39,7 @@ export default (router: express.Router) => {
   );
   // getCustomerTypeList
   router.get(
-    "/api/supermarket/customerTypeList",
+    "/api/supermarket/customerTypeList",checkAuthCookie.checkAuthCookie,
     async (req: express.Request, res: express.Response) => {
       const result = await knex
         .db("supermarket")
@@ -51,7 +52,7 @@ export default (router: express.Router) => {
 
   // get totalDataAmount
   router.get(
-    "/api/supermarket/totalDataAmount",
+    "/api/supermarket/totalDataAmount",checkAuthCookie.checkAuthCookie,
     async (
       req: express.Request,
       res: express.Response,
@@ -69,9 +70,17 @@ export default (router: express.Router) => {
     }
   );
 
+  router.get('/api/supermarket/bulletin',checkAuthCookie.checkAuthCookie,
+    (req,res)=>{
+      res.render("Bulletin",{
+        contentExample:"Bulletin"
+      })
+    }
+  )
+
   // getByPage
   router.get(
-    "/api/supermarket/:pageNum/:pageSize",
+    "/api/supermarket/:pageNum/:pageSize",checkAuthCookie.checkAuthCookie,
     async (
       req: express.Request,
       res: express.Response,
@@ -108,7 +117,7 @@ export default (router: express.Router) => {
 
   // barChart data
   router.get(
-    "/api/supermarket/barChart",
+    "/api/supermarket/barChart",checkAuthCookie.checkAuthCookie,
     async (
       req: express.Request,
       res: express.Response,
@@ -133,9 +142,10 @@ export default (router: express.Router) => {
     }
   );
 
+
   // lineChart
   router.get(
-    "/api/supermarket/lineChart",
+    "/api/supermarket/lineChart",checkAuthCookie.checkAuthCookie,
     async (
       req: express.Request,
       res: express.Response,
