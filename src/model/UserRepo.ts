@@ -35,7 +35,7 @@ export class UserRepo {
   public getPaginatedUsers = async (
     pageNum: number,
     pageSize: number
-  ): Promise<UserDocument[]> => {
+  ): Promise<UserDocument[] | []> => {
     try {
       return this.model
         .find({})

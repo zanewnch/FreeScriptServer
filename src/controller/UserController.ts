@@ -14,19 +14,24 @@ import { JWT } from "../utils/JWT";
 import { JwtPayload } from "jsonwebtoken";
 import mongoose from "mongoose";
 
+
 export class UserController {
   private userRepo: UserRepo;
   constructor() {
     this.userRepo = new UserRepo();
   }
 
-  public deleteCookie = async(
-    req:express.Request,
-    res:express.Response
-  ):Promise<void>=>{
+  public deleteCookie = async (
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> => {
     res.clearCookie("login-token");
-    res.status(200).json(Result.successWithData("Successful delete the login-token cookie."))
-  }
+    res
+      .status(200)
+      .json(
+        Result.successWithData("Successful delete the login-token cookie.")
+      );
+  };
 
   public insertLocalUser = async (
     req: express.Request,
@@ -96,16 +101,16 @@ export class UserController {
 
   public verifyLogin = (req: express.Request, res: express.Response): void => {
     try {
-      const token:string | undefined = req.cookies["login-token"];
+      const token: string | undefined = req.cookies["login-token"];
 
       if (token) {
-        let result:boolean = JWT.verifyToken(token);
+        let result: boolean = JWT.verifyToken(token);
         if (result) {
           res.status(200).send(Result.successWithData(result));
         } else {
           res.status(400).send(Result.error("No token"));
         }
-      }else{
+      } else {
         res.status(400).send(Result.error("No token provided"));
       }
     } catch (e) {
@@ -129,7 +134,7 @@ export class UserController {
         .status(200)
         .send(Result.successWithData(token));
     } else if (user["displayName"]) {
-      let token:string = JWT.createToken(user["displayName"]);
+      let token: string = JWT.createToken(user["displayName"]);
 
       res
         .cookie("login-token", token, {
@@ -139,7 +144,7 @@ export class UserController {
         })
         .status(200)
         .send(Result.successWithData(token));
-    }else{
+    } else {
       res.status(400).send(Result.error("No token"));
     }
   };
@@ -205,6 +210,23 @@ export class UserController {
     }
   };
 
+  public getUserByPage = async (
+    req: express.Request,
+    res: express.Response
+  ):Promise<void> => {
+    try {
+      //  path variable都會是string, 所以要轉成int
+      const page = parseInt(req.params.pageNum) || 1; // default pageNum to 1
+      const pageSize = parseInt(req.params.pageSize) || 10; // default pageSize to 10
+      const result:UserDocument[] | []  = await this.userRepo.getPaginatedUsers(page, pageSize);
+      res.status(200).json(Result.successWithData(result));
+
+    } catch (e) {
+      console.error(e);
+      res.status(500).json(Result.error("Internal Server Error"));
+    }
+  };
+
   public updateUser = async (
     req: express.Request,
     res: express.Response
@@ -213,7 +235,7 @@ export class UserController {
       const body: User = req.body;
       const result: UserDocument & {
         _id: mongoose.Types.ObjectId;
-    } = await this.userRepo.updateUser(body);
+      } = await this.userRepo.updateUser(body);
 
       res.status(200).json(Result.successWithData(result));
     } catch (e) {

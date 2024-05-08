@@ -16,6 +16,8 @@ export default (router: express.Router) => {
 
   router.get("/api/user/delete-cookie", userController.deleteCookie);
 
+  router.post("/api/user/:pageNum/:pageSize",checkAuthCookie.checkAuthCookie,userController.getUserByPage);
+
   router.post(
     "/api/user/register-local",
     checkAuthCookie.checkAuthCookie,

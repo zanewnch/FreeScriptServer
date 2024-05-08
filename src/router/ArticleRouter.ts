@@ -9,7 +9,7 @@ export default (router: express.Router) => {
   const checkAuthCookie = new CheckAuthCookie();
   const articleRepo = new ArticleRepo();
 
-  router.get("/api/setting", (req, res) => {
+  router.get("/api/article/setting", (req, res) => {
     res.render("SettingView", {
       username: "zanewnch",
     });
@@ -72,7 +72,8 @@ export default (router: express.Router) => {
     articleController.publish
   );
 
-  router.get("/api/article/staff-picks", 
+  router.get(
+    "/api/article/staff-picks",
     checkAuthCookie.checkAuthCookie,
     articleController.getStaffPicks
   );
