@@ -56,7 +56,6 @@ export default (router: express.Router) => {
 
   router.post(
     "/api/user/set-cookie",
-    checkAuthCookie.checkAuthCookie,
     userController.setCookie
   );
   router.get("/api/user/verify-login", userController.verifyLogin);

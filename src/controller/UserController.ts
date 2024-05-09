@@ -14,7 +14,6 @@ import { JWT } from "../utils/JWT";
 import { JwtPayload } from "jsonwebtoken";
 import mongoose from "mongoose";
 
-
 export class UserController {
   private userRepo: UserRepo;
   constructor() {
@@ -105,6 +104,7 @@ export class UserController {
 
       if (token) {
         let result: boolean = JWT.verifyToken(token);
+
         if (result) {
           res.status(200).send(Result.successWithData(result));
         } else {
@@ -213,14 +213,16 @@ export class UserController {
   public getUserByPage = async (
     req: express.Request,
     res: express.Response
-  ):Promise<void> => {
+  ): Promise<void> => {
     try {
       //  path variable都會是string, 所以要轉成int
       const page = parseInt(req.params.pageNum) || 1; // default pageNum to 1
       const pageSize = parseInt(req.params.pageSize) || 10; // default pageSize to 10
-      const result:UserDocument[] | []  = await this.userRepo.getPaginatedUsers(page, pageSize);
+      const result: UserDocument[] | [] = await this.userRepo.getPaginatedUsers(
+        page,
+        pageSize
+      );
       res.status(200).json(Result.successWithData(result));
-
     } catch (e) {
       console.error(e);
       res.status(500).json(Result.error("Internal Server Error"));
