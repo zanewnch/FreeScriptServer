@@ -112,7 +112,7 @@ export default (router: express.Router) => {
       userController.get(req, res);
     }
   );
-  // !要完成rest of api 的swagger comment
+
   router.put(
     "/api/user",
     checkAuthCookie.checkAuthCookie,
