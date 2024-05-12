@@ -7,6 +7,7 @@ import { Result } from "../utils/Result";
 import { JWT } from "../utils/JWT";
 import { AutoFill } from "../middleware/AutoFill";
 
+
 // @ts-ignore
 export default (router: express.Router) => {
   const userRepo = new UserRepo();
@@ -63,6 +64,6 @@ export default (router: express.Router) => {
   router.get("/api/user/decode-login", userController.decodeLogin);
 
   router.get("/api/user/test/test", (req, res) => {
-    res.status(200).json(Result.success());
+    
   });
 };

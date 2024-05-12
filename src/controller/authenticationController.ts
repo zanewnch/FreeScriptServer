@@ -4,7 +4,7 @@ import {
   getUserByEmail,
   createUser,
 } from "../deprecated/OriginalTemplateWithMongoDB";
-import { authentication, random } from "../utils";
+import { authentication, random } from "../deprecated";
 
 export const login = async (req: express.Request, res: express.Response) => {
   try {

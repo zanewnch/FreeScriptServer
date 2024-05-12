@@ -10,7 +10,7 @@ export class AutoFill {
     try {
       // get full url(with query string) then turn into lower case
       const fullUrl = req.originalUrl.toLowerCase();
-      const currentDate = new Date();
+      const currentDate:Date = new Date();
 
       // even if the data pass by frontend does not include these two fields,it is still possible to add them.
       // for this case, it add these two field to request body(json)
