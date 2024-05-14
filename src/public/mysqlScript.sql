@@ -23,3 +23,13 @@ CREATE TABLE Articles (
     summary varchar(255) null,
     commment varchar(255)    
 );
+
+
+
+
+-- bar-chart 語法
+SELECT tag, SUM(`like`) as total_likes
+FROM articles
+GROUP BY tag
+ORDER BY total_likes DESC
+LIMIT 5;

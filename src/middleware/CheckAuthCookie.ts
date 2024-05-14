@@ -18,7 +18,7 @@ export class CheckAuthCookie {
       // Allow requests to "/login" and "/register" to proceed without requiring authToken
 
       // for tesing, just directly
-      // return next();
+      return next();
 
       const url = req.originalUrl.toLowerCase();
 

@@ -3,19 +3,34 @@ import * as path from "path";
 import * as fs from "fs/promises";
 import { Article } from "interface/ArticleInterface";
 
-interface Topics {
+export interface Topics {
   keywords: string[];
 }
 
-class GenerateFakeData {
+export class GenerateFakeData {
   private filePath: string;
   private topics: Topics | {};
   private keywordArray: string[];
+  private article: Article;
 
   constructor() {
     this.filePath = path.join(__dirname, "../public/ArticleKeyword.json");
     this.topics = {};
     this.keywordArray = [];
+    this.article = {
+      title: "",
+      content: "",
+      author: "",
+      createdDate: new Date(),
+      publishedDate: new Date(),
+      updatedDate: new Date(),
+      tag: "",
+      like: 0,
+      views: 0,
+      summary: "",
+      status: "",
+      comments: [],
+    };
   }
 
   public paragraphs = (
@@ -117,40 +132,41 @@ class GenerateFakeData {
 
     for (let i = 0; i < amount; i++) {
       result.push({
-        username: generateFakeData.fullName(),
-        content: generateFakeData.paragraphs({ min: 1, max: 2 }),
+        username: this.fullName(),
+        content: this.paragraphs({ min: 1, max: 2 }),
       });
     }
 
     return result;
   };
-}
 
+  public assignArticle = async () => {
+    try {
+      this.article["title"] = this.lines(1);
+      this.article["content"] = this.paragraphs({ min: 3, max: 5 });
+      this.article["author"] = this.fullName();
+      this.article["createdDate"] = this.dateGenerate();
+      this.article["publishedDate"] = this.dateGenerate();
+      this.article["updatedDate"] = this.dateGenerate();
+      this.article["tag"] = await this.randomTags();
+      this.article["like"] = this.getRandomNumber(500, 10000);
+      this.article["views"] = this.getRandomNumber(500, 10000);
+      this.article["summary"] = this.lines(1);
+      this.article["status"] = "Published";
+      this.article["comments"] = this.generateComment();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  public main = async (): Promise<Article> => {
+    await this.assignArticle();
+    return this.article;
+  };
+}
 const generateFakeData = new GenerateFakeData();
 
-const article: Article = {};
-const assignArticle = async () => {
-  try {
-    article["title"] = generateFakeData.lines(1);
-    article["content"] = generateFakeData.paragraphs({ min: 3, max: 5 });
-    article["author"] = generateFakeData.fullName();
-    article["createdDate"] = generateFakeData.dateGenerate();
-    article["publishedDate"] = generateFakeData.dateGenerate();
-    article["updatedDate"] = generateFakeData.dateGenerate();
-    article["tag"] = await generateFakeData.randomTags();
-    article["like"] = generateFakeData.getRandomNumber(500, 10000);
-    article["views"] = generateFakeData.getRandomNumber(500, 10000);
-    article["summary"] = generateFakeData.lines(1);
-    article["status"] = "Published";
-    article["comments"] = generateFakeData.generateComment();
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const main = async () => {
-  await assignArticle();
-  console.log(article);
-};
-
-main();
+// const test = async () => {
+//   let result = await generateFakeData.main();
+//   console.log(result);
+// };
+// test();
