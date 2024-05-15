@@ -133,7 +133,7 @@ export default (router: express.Router) => {
 
         //an array that contains objects. Each object represents a row of data.
         const rows: object[] = await query;
-        console.log(rows);
+        
 
         res.status(200).json(Result.successWithData(rows));
       } catch (e) {

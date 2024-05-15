@@ -16,8 +16,37 @@ export default (router: express.Router) => {
   const articleMysqlRepo = new ArticleMysqlRepo();
   const knex = new Knex();
 
+  router.get("/api/content/line-chart",async(req,res)=>{
+    try{
+      /* 
+      SELECT DATE_FORMAT(publishedDate, "%Y-%m") as month, SUM(views) as total_views
+      FROM articles
+      GROUP BY DATE_FORMAT(publishedDate, "%Y-%m")
+      ORDER BY month;
+      */
+      const monthlyViews = await knex.db('articles')
+      .select(knex.db.raw('DATE_FORMAT(publishedDate, "%Y-%m") as month'))
+      .sum('views as total_views')
+      .groupByRaw('DATE_FORMAT(publishedDate, "%Y-%m")')
+      .orderBy('month');
+
+      res.status(200).json(Result.successWithData(monthlyViews));
+
+    }catch(e){
+      console.log(e);
+      res.status(500).json(Result.error("interval error"));
+    }
+  })
+
   router.get("/api/content/bar-chart", async (req, res) => {
     try {
+      /* 
+      SELECT tag, SUM(`like`) as total_likes
+      FROM articles
+      GROUP BY tag
+      ORDER BY total_likes DESC
+      LIMIT 5;
+      */
       const mostLikedTag = await knex
         .db("articles")
         .select("tag")
