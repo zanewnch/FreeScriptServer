@@ -18,7 +18,7 @@ export class SupermarketSaleController {
 
   public get = async (req: express.Request, res: express.Response) => {
     try {
-      console.log(req.originalUrl);
+      
       const supermarketSale = await this.supermarketSaleRepo.get(req.query);
       res.status(200).json(Result.successWithData(supermarketSale));
     } catch (error) {

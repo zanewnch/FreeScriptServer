@@ -1,0 +1,15 @@
+Field,Type,Null,Key,Default,Extra
+id,int,NO,PRI,NULL,auto_increment
+_id,varchar(255),YES,,NULL,
+title,varchar(255),YES,,NULL,
+content,text,YES,,NULL,
+createdDate,datetime,YES,,CURRENT_TIMESTAMP,DEFAULT_GENERATED
+publishedDate,datetime,YES,,CURRENT_TIMESTAMP,"DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+updatedDate,varchar(255),YES,,NULL,
+tag,varchar(255),YES,,NULL,
+like,bigint,YES,,NULL,
+views,bigint,YES,,NULL,
+summary,varchar(255),YES,,NULL,
+comments,varchar(5000),YES,,NULL,
+author,varchar(255),YES,,NULL,
+status,varchar(255),YES,,NULL,
