@@ -30,6 +30,7 @@ CREATE TABLE articles (
     _id VARCHAR(255)null,
     title VARCHAR(255) null,
     content TEXT null,
+    author VARCHAR(255) null,
     createdDate DATETIME DEFAULT CURRENT_TIMESTAMP null,
     publishedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP null,
     updatedDate VARCHAR(255) null,
@@ -38,7 +39,6 @@ CREATE TABLE articles (
     views BIGINT null,
     summary VARCHAR(255) null,
     comments VARCHAR(5000) null,
-    author VARCHAR(255) null,
     status VARCHAR(255) null,
     PRIMARY KEY (id) 
 );

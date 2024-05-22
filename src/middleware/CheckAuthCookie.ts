@@ -9,7 +9,7 @@ export class CheckAuthCookie {
     res: express.Response,
     next: express.NextFunction
   ): void | express.Response<any, Record<string, any>> => {
-    // for testing, just directly return next()
+    
 
     try {
       // for testing, just directly return next()
