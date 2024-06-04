@@ -32,7 +32,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // cors config for localhost
 app.use(
   cors({
-    origin: ["http://localhost:5173","http://58.115.128.46:5173","*"],
+    origin: ["http://58.115.128.46:5173","http://localhost:5173","*"],
+    // origin:'*',
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
