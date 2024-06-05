@@ -124,6 +124,9 @@ export class UserController {
     if (user["username"]) {
       let token: string = JWT.createToken(user["username"]);
 
+      // 這可能是由於你的 cookie 設定中的 secure 選項。當 secure 選項設為 true 時，cookie 只會在 HTTPS 連線中被傳送。如果你的 http://58.115.128.46:8080 伺服器並未使用 HTTPS，那麼 cookie 將不會被設定。
+      // 如果你的伺服器並未使用 HTTPS，你可以將 secure 選項設為 false：
+
       // 然而，由於你已經將 httpOnly 選項設置為 true，這個 cookie 不能被 JavaScript 存取，這是一種安全措施，用來防止跨站腳本攻擊（XSS）。
       res
         .cookie("login-token", token, {

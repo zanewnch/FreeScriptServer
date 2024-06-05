@@ -29,30 +29,35 @@ which mean the localhost:8080/ would show the index.html
  */
 app.use(express.static(path.join(__dirname, "public")));
 
-// cors config for localhost
-app.use(
-  cors({
-    origin: ["http://58.115.128.46:5173","http://localhost:5173","*"],
-    // origin:'*',
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  })
-);
+
 
 // 设置 Express 使用 EJS 模板引擎
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-//cors comfig
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Credentials", "true");
-  // 其他的 CORS 相關設置
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // 或者你的前端應用的 URL
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  next();
-});
+// cors config for localhost
+app.use(
+  cors({
+    origin: ["http://58.115.128.46:5173","http://localhost:5173"],
+    // origin:'*',
+    // origin: function (origin, callback) {
+    //   callback(null, origin);
+    // },
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  })
+);
+
+//cors config 舊版
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   // 其他的 CORS 相關設置
+//   res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // 或者你的前端應用的 URL
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   next();
+// });
 
 // swagger related cofig
 // 這裡的path就是swagger ui path
