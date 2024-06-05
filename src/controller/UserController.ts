@@ -128,14 +128,26 @@ export class UserController {
       // 如果你的伺服器並未使用 HTTPS，你可以將 secure 選項設為 false：
 
       // 然而，由於你已經將 httpOnly 選項設置為 true，這個 cookie 不能被 JavaScript 存取，這是一種安全措施，用來防止跨站腳本攻擊（XSS）。
+
+      // 這是替代方案  但是可以正常運作
       res
         .cookie("login-token", token, {
           httpOnly: true,
-          secure: true,
-          sameSite: "none",
+          secure: false,
+          sameSite: "lax",
         })
         .status(200)
         .send(Result.successWithData(token));
+
+      // 常規版本  但會導致http://58.115.128.46:5173/ 連 http://58.115.128.46:8080/ 的時候  setCookie function 一直失常
+      // res
+      //   .cookie("login-token", token, {
+      //     httpOnly: true,
+      //     secure: true,
+      //     sameSite: "none",
+      //   })
+      //   .status(200)
+      //   .send(Result.successWithData(token));
     } else if (user["displayName"]) {
       let token: string = JWT.createToken(user["displayName"]);
 
