@@ -2,7 +2,7 @@
     "compilerOptions": {
       "esModuleInterop": true,
       "module": "NodeNext",
-      "moduleResolution": "NodeNext",
+      "moduleResolution": "node",
       "allowJs": true,
       "baseUrl": "src",
       "outDir": "dist",
